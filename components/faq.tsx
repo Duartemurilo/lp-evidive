@@ -97,7 +97,12 @@ export function FAQ(): ReactNode {
   };
 
   return (
-    <section className="bg-foreground px-6 py-16 md:py-32 rounded-4xl">
+    <section
+      id="loja"
+      data-depth-label="Loja"
+      data-depth="-30m"
+      className="bg-foreground rounded-4xl px-6 py-16 md:py-32"
+    >
       <div className="mx-auto max-w-3xl">
         <motion.div
           ref={headerRef}
@@ -141,7 +146,7 @@ export function FAQ(): ReactNode {
           </p>
           <a
             href="mailto:hello@tldr.app"
-            className="group inline-flex items-center gap-3 rounded-md bg-background py-3 pl-5 pr-3 font-medium text-foreground shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
+            className="font-display group inline-flex items-center gap-3 rounded-md bg-background py-3 pl-5 pr-3 font-medium text-foreground shadow-lg transition-all duration-500 ease-out hover:rounded-[50px]"
           >
             <span>Get in Touch</span>
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background transition-all duration-300 group-hover:scale-110">

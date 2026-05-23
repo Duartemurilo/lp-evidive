@@ -334,7 +334,7 @@ const RotatingCards: React.FC<RotatingCardsProps> = ({
                 background:
                   card.background ||
                   (card.image
-                    ? `url(${card.image}) center/cover`
+                    ? `url("${card.image}") center/cover`
                     : undefined),
                 willChange: "transform",
                 rotate: position.angle + 90,

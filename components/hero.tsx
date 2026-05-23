@@ -2,213 +2,141 @@
 
 import { ChevronRight as ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
-import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import DitherCursor from "./dither-cursor";
-import RotatingCards, { type Card } from "./rotating-cards";
+import { WaveDivider } from "@/components/wave-divider";
+import { usePageRevealReady } from "@/lib/use-page-reveal";
+import { type ReactNode } from "react";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const headlineText = "No More Time To Waste";
+const headlineLine1 = "Respire debaixo d'água e";
+const headlineLine2 = "descubra ";
+const headlineLine2Accent = "um novo mundo.";
+const subtitleLine1 = "Uma experiência imersiva para quem quer";
+const subtitleLine2 = "conhecer, aprender e evoluir no mergulho.";
 
-const cardData = [
-  { label: "Chrome Extension", image: "/img/chrome-extension.webp" },
-  { label: "Safari Extension", image: "/img/safari-extension.webp" },
-  { label: "API Access", image: "/img/api-access.webp" },
-  { label: "Article Summary", image: "/img/article-summary.webp" },
-  { label: "Video Summary", image: "/img/video-summary.webp" },
-  { label: "Podcast Summary", image: "/img/podcast-summary.webp" },
-  { label: "PDF Summary", image: "/img/pdf-summary.webp" },
-  { label: "Research Papers", image: "/img/research-papers.webp" },
-  { label: "Social Threads", image: "/img/social-threads.webp" },
-  { label: "Email Digest", image: "/img/email-digest.webp" },
-  { label: "Book Summary", image: "/img/book-summary.webp" },
-];
-
-const carouselCards: Card[] = cardData.map((card, index) => ({
-  id: index + 1,
-  content: (
-    <div className="flex h-full flex-col p-2">
-      <div className="relative flex-1 overflow-hidden rounded-t-sm rounded-b-full">
-        <Image
-          src={card.image}
-          alt={card.label}
-          fill
-          className="object-cover grayscale"
-        />
-      </div>
-      <div className="px-1 pt-3 text-center">
-        <span className="text-sm font-medium">{card.label}</span>
-      </div>
-    </div>
-  ),
-}));
+function AnimatedHeadlineChars({
+  text,
+  startIndex,
+  className,
+  ready,
+}: {
+  text: string;
+  startIndex: number;
+  className?: string;
+  ready: boolean;
+}): ReactNode {
+  return text.split("").map((char, index) => (
+    <motion.span
+      key={`${startIndex}-${index}`}
+      initial={{ opacity: 0, filter: "blur(8px)" }}
+      animate={
+        ready
+          ? { opacity: 1, filter: "blur(0px)" }
+          : { opacity: 0, filter: "blur(8px)" }
+      }
+      transition={{
+        duration: 0.38,
+        delay: ready ? 0.05 + (startIndex + index) * 0.018 : 0,
+        ease: "easeOut",
+      }}
+      className={className ? `inline-block ${className}` : "inline-block"}
+      style={{ whiteSpace: char === " " ? "pre" : "normal" }}
+    >
+      {char}
+    </motion.span>
+  ));
+}
 
 export function Hero(): ReactNode {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
-  const [opacity, setOpacity] = useState(0);
-  const [isMobile, setIsMobile] = useState(true);
-  const opacityRef = useRef(0);
-  const animationRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const headline = headlineRef.current;
-    if (!headline) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry) return;
-        setIsVisible(entry.isIntersecting);
-        if (entry.isIntersecting) setShouldRender(true);
-      },
-      { threshold: 0, rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    observer.observe(headline);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const targetOpacity = isVisible ? 1 : 0;
-
-    const animate = () => {
-      const diff = targetOpacity - opacityRef.current;
-      const step = diff * 0.02;
-
-      if (Math.abs(diff) > 0.001) {
-        opacityRef.current += step;
-        setOpacity(opacityRef.current);
-        animationRef.current = requestAnimationFrame(animate);
-      } else {
-        opacityRef.current = targetOpacity;
-        setOpacity(targetOpacity);
-        if (targetOpacity === 0) setShouldRender(false);
-      }
-    };
-
-    if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, [isVisible]);
+  const animReady = usePageRevealReady();
 
   return (
     <section
-      ref={sectionRef}
-      className="relative flex min-h-dvh flex-col items-center justify-start overflow-hidden px-6 pt-40 sm:pt-82"
+      id="superficie"
+      data-depth-label="Superfície"
+      data-depth="0m"
+      className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 pb-10 pt-28 sm:pt-32 md:pt-36"
     >
-      {!isMobile && shouldRender && (
-        <DitherCursor opacity={opacity} />
-      )}
-      <div ref={headlineRef} className="relative z-10 mx-auto md:text-center">
-        <h1 className="mb-8 text-5xl font-medium tracking-tighter md:text-8xl lg:text-8xl">
-          {headlineText.split("").map((char, index) => (
-            <motion.span
-              key={index}
-              initial={{ opacity: 0, filter: "blur(10px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.03,
-                ease: "easeOut",
-              }}
-              className="inline-block"
-              style={{ whiteSpace: char === " " ? "pre" : "normal" }}
-            >
-              {char}
-            </motion.span>
-          ))}
-        </h1>
+      <div className="relative z-10 mx-auto flex w-full max-w-[min(100%,52rem)] flex-col items-center text-center">
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.8,
-            ease: "easeOut",
-          }}
-          className="text-muted-foreground mx-auto mt-6 max-w-xl text-2xl leading-12 tracking-tight md:text-3xl"
+          initial={{ opacity: 0, y: 10 }}
+          animate={animReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.55, ease: easeOut }}
+          className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-white/70 sm:text-xs"
         >
-          <span className="text-foreground bg-foreground/5 inline-block rounded-md px-2 py-0.5 leading-10">
-            Read less
-          </span>{" "}
-          &{" "}
-          <span className="text-foreground bg-foreground/5 inline-block rounded-full px-4 py-0.5 leading-10">
-            know more
-          </span>{" "}
-          Save{" "}
-          <span className="text-foreground bg-foreground/5 inline-block rounded-md px-2 py-0.5 leading-10">
-            hours
-          </span>{" "}
-          every week with AI summaries done right.
+          Concept Dive Center
         </motion.p>
-      </div>
-
-      {/* Carousel */}
-      <div
-        className="relative -mx-6 mt-2 h-100 w-screen overflow-hidden sm:h-125 md:h-137.5 lg:h-150 xl:h-175"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
-        }}
-      >
-        <div className="absolute left-1/2 top-25 -translate-x-1/2 sm:top-30 lg:top-35 xl:top-40">
-          <div className="origin-top scale-[0.6] lg:scale-[0.7] xl:scale-100">
-            <RotatingCards
-              cards={carouselCards}
-              radius={1000}
-              cardClassName="rounded-md"
-              cardWidth={350}
-              cardHeight={275}
-              duration={100}
-              pauseOnHover={true}
-              autoPlay={true}
-              initialRotation={-90}
-              showTrackLine={true}
-              trackLineOffset={25}
-            />
-          </div>
-        </div>
-      </div>
-
-      <motion.div
-        className="relative z-10 flex flex-col items-center px-6 pb-24 text-center"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.8, ease: easeOut }}
-      >
-        <h2 className="max-w-3xl text-3xl font-medium tracking-tight md:text-5xl lg:text-6xl">
-          Turn Hours of Content <br />
-          Into Fast Insight
-        </h2>
-        <motion.a
-          href="#"
-          className="bg-accent group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-md py-3 pl-5 pr-3 font-medium text-black shadow-lg shadow-accent/25 transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-xl hover:shadow-accent/40 sm:w-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.6, ease: easeOut, delay: 0.2 }}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.6 }}
+          animate={
+            animReady ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.6 }
+          }
+          transition={{ duration: 0.5, delay: animReady ? 0.04 : 0, ease: easeOut }}
+          className="mb-6 mt-4 text-primary sm:mb-7 sm:mt-5"
         >
-          <span>Get Started Free</span>
-          <span className="bg-background text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
-            <ChevronRightIcon className="relative left-px h-4 w-4" />
+          <WaveDivider className="text-primary" />
+        </motion.div>
+
+        <h1 className="font-display mx-auto mb-6 text-[clamp(1.35rem,3.8vw,3.35rem)] font-bold leading-[1.08] tracking-tight sm:mb-7">
+          <span className="block whitespace-nowrap">
+            <AnimatedHeadlineChars
+              text={headlineLine1}
+              startIndex={0}
+              className="text-white"
+              ready={animReady}
+            />
           </span>
-        </motion.a>
-      </motion.div>
+          <span className="block whitespace-nowrap">
+            <AnimatedHeadlineChars
+              text={headlineLine2}
+              startIndex={headlineLine1.length}
+              className="text-white"
+              ready={animReady}
+            />
+            <span className="text-primary">
+              <AnimatedHeadlineChars
+                text={headlineLine2Accent}
+                startIndex={headlineLine1.length + headlineLine2.length}
+                ready={animReady}
+              />
+            </span>
+          </span>
+        </h1>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={animReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{
+            duration: 0.6,
+            delay: animReady ? 0.18 : 0,
+            ease: easeOut,
+          }}
+          className="mx-auto mb-10 text-[clamp(0.82rem,2.2vw,1.05rem)] leading-relaxed text-white/82 sm:mb-11"
+        >
+          <p className="whitespace-nowrap">{subtitleLine1}</p>
+          <p className="mt-1 whitespace-nowrap">{subtitleLine2}</p>
+        </motion.div>
+
+        <motion.div
+          className="flex w-full justify-center"
+          initial={{ opacity: 0, y: 16 }}
+          animate={animReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          transition={{
+            duration: 0.6,
+            delay: animReady ? 0.28 : 0,
+            ease: easeOut,
+          }}
+        >
+          <a
+            href="#escolha-experiencia"
+            className="font-display group inline-flex w-full items-center justify-center gap-3 rounded-full bg-primary px-7 py-3.5 text-[0.95rem] font-semibold text-white shadow-[0_12px_36px_rgba(30,196,180,0.38)] transition-all duration-300 hover:bg-[#1ad4c3] hover:shadow-[0_16px_44px_rgba(30,196,180,0.45)] sm:w-auto"
+          >
+            <span>Escolher minha experiência</span>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:scale-105">
+              <ChevronRightIcon className="h-4 w-4" aria-hidden />
+            </span>
+          </a>
+        </motion.div>
+      </div>
     </section>
   );
 }

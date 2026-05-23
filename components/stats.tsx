@@ -110,7 +110,12 @@ export function Stats(): ReactNode {
   const isHeaderInView = useInView(headerRef, { once: true, amount: 0.5 });
 
   return (
-    <section className="bg-background px-6 py-16 md:py-32">
+    <section
+      id="formacao"
+      data-depth-label="Formação"
+      data-depth="-10m"
+      className="bg-background px-6 py-16 md:py-32"
+    >
       <div className="mx-auto max-w-6xl">
         <motion.div
           ref={headerRef}

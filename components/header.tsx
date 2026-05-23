@@ -109,7 +109,7 @@ function MenuCard({ card }: { card: (typeof menuCards)[number] }): ReactNode {
         },
       }}
     >
-      <span className="text-background/50 text-xs font-medium tracking-widest uppercase">
+      <span className="text-background/50 font-display text-xs font-medium tracking-widest uppercase">
         {card.title}
       </span>
 
@@ -147,7 +147,7 @@ function MenuCard({ card }: { card: (typeof menuCards)[number] }): ReactNode {
                 <span className="flex items-center gap-3 transition-transform duration-300 group-hover:translate-x-1">
                   {link.label}
                   {link.badge && (
-                    <span className="bg-accent rounded px-2 py-0.5 text-xs font-medium text-black uppercase">
+                    <span className="bg-accent rounded px-2 py-0.5 text-xs font-medium text-accent-foreground uppercase">
                       {link.badge}
                     </span>
                   )}
@@ -180,13 +180,13 @@ function MobileSignUpButton(): ReactNode {
     >
       <Link
         href="#"
-        className="text-background rounded-[3.5px] bg-background/10 px-6 py-3 text-xl font-medium tracking-tight transition-colors"
+        className="font-display text-background rounded-[3.5px] bg-background/10 px-6 py-3 text-xl font-medium tracking-tight transition-colors"
       >
         Sign Up
       </Link>
       <Link
         href="#"
-        className="group bg-accent relative rounded-[3.5px] px-6 py-3 text-xl font-medium tracking-tight text-black transition-all duration-500 hover:rounded-[50px]"
+        className="group font-display bg-accent relative rounded-[3.5px] px-6 py-3 text-xl font-medium tracking-tight text-accent-foreground transition-all duration-500 hover:rounded-[50px]"
       >
         <span
           className="relative block h-[1.25em] overflow-hidden"
@@ -267,7 +267,7 @@ export function Header(): ReactNode {
         }}
       >
         <motion.nav
-          className="bg-foreground shadow-2xl/20 border border-neutral-200/10 flex max-w-6xl flex-col overflow-hidden rounded-md"
+          className="bg-menu-card shadow-2xl/20 border border-white/10 flex max-w-6xl flex-col overflow-hidden rounded-md"
           initial={false}
           animate={{ 
             width: isMenuOpen ? "100%" : hasScrolled ? "56rem" : "42rem",
@@ -275,10 +275,17 @@ export function Header(): ReactNode {
           transition={{ ...spring, delay: isMenuOpen ? 0 : 0.15 }}
         >
           <div className="flex w-full items-center justify-between py-2 pr-2 pl-4">
-            <Link href="/">
-              <span className="text-background text-4xl font-extrabold -tracking-widest">
-                TLDR
-              </span>
+            <Link href="/" className="flex shrink-0 items-center py-0.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logos/logo-white.png"
+                alt="Evidive"
+                width={185}
+                height={39}
+                className="block h-9 w-[10.625rem] max-w-none object-contain object-left"
+                decoding="async"
+                fetchPriority="high"
+              />
             </Link>
 
             <button
@@ -286,7 +293,7 @@ export function Header(): ReactNode {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <HamburgerIcon isOpen={isMenuOpen} />
-              <span className="text-xl font-medium tracking-tight">Menu</span>
+              <span className="font-sans text-xl font-medium tracking-tight">Menu</span>
             </button>
           </div>
 

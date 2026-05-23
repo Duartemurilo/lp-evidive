@@ -77,21 +77,35 @@ const SimulationMaterial = shaderMaterial(
     void main() {
       vec2 uv = vUv;
       vec2 texel = 1.0 / uResolution;
-      vec2 velocity = curl(uv * 0.5 + uTime * 0.1);
-      vec2 advectedUV = uv - velocity * 0.001;
-      
+
+      // Correntes / redemoinhos de água
+      vec2 flow = curl(uv * 0.65 + uTime * 0.06);
+      vec2 velocity = flow * 2.4 + uDirection * uSpeed * 0.4;
+      vec2 advectedUV = uv - velocity * 0.0018;
+
       float prev = texture2D(uPreviousState, advectedUV).r;
       float top = texture2D(uPreviousState, advectedUV + vec2(0.0, texel.y)).r;
       float bottom = texture2D(uPreviousState, advectedUV - vec2(0.0, texel.y)).r;
       float left = texture2D(uPreviousState, advectedUV - vec2(texel.x, 0.0)).r;
       float right = texture2D(uPreviousState, advectedUV + vec2(texel.x, 0.0)).r;
       float diffused = (prev + top + bottom + left + right) * 0.2;
-      
+
+      // Micro-ondulação ambiente na superfície
+      float ambient = snoise(uv * 3.5 + uTime * 0.12) * 0.018 + 0.01;
+
       float aspect = uResolution.x / uResolution.y;
       float dist = length((uv - uMouse) * vec2(aspect, 1.0));
-      float brush = exp(-pow(dist / uRadius, 2.0)) * uIntensity * smoothstep(0.0, 0.01, uSpeed) * 0.5;
-      
-      float value = min(0.95, diffused + brush) - uDecay;
+
+      // Splash ao mover o cursor
+      float splash = exp(-pow(dist / uRadius, 1.35)) * uIntensity
+        * (0.2 + 0.8 * smoothstep(0.0, 0.015, uSpeed));
+
+      // Ondas concêntricas (gota na água)
+      float ripple = sin(dist * 55.0 - uTime * 4.5) * exp(-dist * 6.5) * 0.13
+        * smoothstep(0.002, 0.02, uSpeed);
+      ripple += sin(dist * 32.0 - uTime * 2.8 + 1.2) * exp(-dist * 4.0) * 0.065;
+
+      float value = min(0.9, diffused + splash + ripple + ambient) - uDecay;
       gl_FragColor = vec4(vec3(max(0.0, value)), 1.0);
     }
   `
@@ -102,8 +116,10 @@ const DitherMaterial = shaderMaterial(
     uSimulationState: null,
     uDitherSize: 8.0,
     uExponent: 2.0,
+    uTime: 0,
     uResolution: new THREE.Vector2(0, 0),
     uColor: new THREE.Vector3(0, 0, 0),
+    uColorHighlight: new THREE.Vector3(1, 1, 1),
     uOpacity: 1.0,
     uPixelRatio: 1.0,
   },
@@ -118,12 +134,40 @@ const DitherMaterial = shaderMaterial(
     uniform sampler2D uSimulationState;
     uniform float uDitherSize;
     uniform float uExponent;
+    uniform float uTime;
     uniform vec2 uResolution;
     uniform vec3 uColor;
+    uniform vec3 uColorHighlight;
     uniform float uOpacity;
     uniform float uPixelRatio;
 
     varying vec2 vUv;
+
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+    float snoise(vec2 v) {
+      const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+      vec2 i  = floor(v + dot(v, C.yy));
+      vec2 x0 = v - i + dot(i, C.xx);
+      vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+      vec4 x12 = x0.xyxy + C.xxzz;
+      x12.xy -= i1;
+      i = mod289(i);
+      vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+      vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+      m = m*m; m = m*m;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 ox = floor(x + 0.5);
+      vec3 a0 = x - ox;
+      m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+      vec3 g;
+      g.x = a0.x * x0.x + h.x * x0.y;
+      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+      return 130.0 * dot(m, g);
+    }
 
     float bayer8(vec2 uv) {
       int x = int(mod(uv.x, 8.0));
@@ -141,10 +185,22 @@ const DitherMaterial = shaderMaterial(
     }
 
     void main() {
-      float signal = pow(texture2D(uSimulationState, vUv).r, uExponent);
+      vec2 uv = vUv;
+      // Refração leve — superfície ondulada
+      float w1 = snoise(uv * 4.0 + vec2(uTime * 0.05, uTime * 0.04));
+      float w2 = snoise(uv * 6.0 - uTime * 0.035);
+      vec2 refractUV = uv + vec2(w1, w2) * 0.005;
+
+      float raw = texture2D(uSimulationState, refractUV).r;
+      float signal = pow(raw, uExponent);
+
       float threshold = bayer8(gl_FragCoord.xy / (uDitherSize * uPixelRatio));
-      float mask = signal < 0.01 ? 0.0 : step(threshold, signal);
-      gl_FragColor = vec4(uColor, mask * uOpacity);
+      float halftone = signal < 0.008 ? 0.0 : step(threshold, signal);
+      float foam = smoothstep(0.12, 0.5, signal);
+      float mask = mix(halftone, foam, 0.32);
+
+      vec3 waterColor = mix(uColor, uColorHighlight, smoothstep(0.15, 0.9, signal));
+      gl_FragColor = vec4(waterColor, mask * uOpacity);
     }
   `
 );
@@ -174,8 +230,10 @@ interface DitherUniforms {
   uSimulationState: THREE.Texture | null;
   uDitherSize: number;
   uExponent: number;
+  uTime: number;
   uResolution: THREE.Vector2;
   uColor: THREE.Vector3;
+  uColorHighlight: THREE.Vector3;
   uOpacity: number;
   uPixelRatio: number;
 }
@@ -188,7 +246,17 @@ interface SceneProps {
   decay: number;
   intensity: number;
   color: string;
+  colorHighlight: string;
   opacity: number;
+}
+
+function parseHexColor(hex: string): { r: number; g: number; b: number } {
+  const h = hex.replace("#", "");
+  return {
+    r: parseInt(h.substring(0, 2), 16) / 255,
+    g: parseInt(h.substring(2, 4), 16) / 255,
+    b: parseInt(h.substring(4, 6), 16) / 255,
+  };
 }
 
 function SceneInternal({
@@ -199,6 +267,7 @@ function SceneInternal({
   decay,
   intensity,
   color,
+  colorHighlight,
   opacity,
 }: SceneProps) {
   const { size, viewport, gl } = useThree();
@@ -208,18 +277,16 @@ function SceneInternal({
   const resolutionRef = useRef(new THREE.Vector2());
   const directionRef = useRef(new THREE.Vector2());
   const colorRef = useRef(new THREE.Vector3());
+  const colorHighlightRef = useRef(new THREE.Vector3());
   
   const pixelRatio = gl.getPixelRatio();
   const normalizedRadius = useMemo(() => radius * (1080 / size.height), [radius, size.height]);
 
-  const parsedColor = useMemo(() => {
-    const hex = color.replace("#", "");
-    return {
-      r: parseInt(hex.substring(0, 2), 16) / 255,
-      g: parseInt(hex.substring(2, 4), 16) / 255,
-      b: parseInt(hex.substring(4, 6), 16) / 255,
-    };
-  }, [color]);
+  const parsedColor = useMemo(() => parseHexColor(color), [color]);
+  const parsedHighlight = useMemo(
+    () => parseHexColor(colorHighlight),
+    [colorHighlight],
+  );
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -276,11 +343,18 @@ function SceneInternal({
       dither.uSimulationState = writeBuffer.texture;
       dither.uDitherSize = ditherSize;
       dither.uExponent = exponent;
+      dither.uTime = clock.elapsedTime;
       resolutionRef.current.set(size.width, size.height);
       dither.uResolution = resolutionRef.current;
       dither.uPixelRatio = pixelRatio;
       colorRef.current.set(parsedColor.r, parsedColor.g, parsedColor.b);
       dither.uColor = colorRef.current;
+      colorHighlightRef.current.set(
+        parsedHighlight.r,
+        parsedHighlight.g,
+        parsedHighlight.b,
+      );
+      dither.uColorHighlight = colorHighlightRef.current;
       dither.uOpacity = opacity;
     }
     
@@ -310,19 +384,23 @@ export interface DitherCursorProps {
   exponent?: number;
   decay?: number;
   intensity?: number;
+  /** Cor profunda da água (halftone) */
   color?: string;
+  /** Cor clara — espuma / reflexo */
+  colorHighlight?: string;
   className?: string;
   opacity?: number;
   position?: "fixed" | "absolute";
 }
 
 export default function DitherCursor({
-  ditherSize = 3.0,
-  radius = 0.075,
-  exponent = 3.0,
-  decay = 0.005,
-  intensity = 0.5,
-  color = "#ffd900",
+  ditherSize = 3.5,
+  radius = 0.095,
+  exponent = 2.35,
+  decay = 0.0025,
+  intensity = 0.62,
+  color = "#1ec4b4",
+  colorHighlight = "#9eeadf",
   className,
   opacity = 1,
   position = "fixed",
@@ -350,6 +428,7 @@ export default function DitherCursor({
           decay={decay}
           intensity={intensity}
           color={color}
+          colorHighlight={colorHighlight}
           opacity={opacity}
         />
       </Canvas>

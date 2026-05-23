@@ -2,32 +2,50 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import { SkipToContent } from "@/components/skip-to-content";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const garet = localFont({
+  src: [
+    {
+      path: "./fonts/Garet-Book.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Heavy.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-garet",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const todayShop = localFont({
+  src: [
+    {
+      path: "./fonts/TodaySHOP-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/TodaySHOP-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-todayshop",
   display: "swap",
 });
 
 export const metadata: Metadata = baseMetadata;
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  themeColor: "#f7f2ec",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -39,14 +57,13 @@ export default function RootLayout({
   children: ReactNode;
 }>): ReactNode {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} relative min-h-screen bg-background font-sans text-foreground antialiased`}
+        className={`${garet.variable} ${todayShop.variable} relative min-h-screen bg-background font-sans text-foreground antialiased`}
       >
         <Providers>
           <SkipToContent />
           <Header />
-          <ThemeSwitch />
           {children}
           <Footer />
         </Providers>

@@ -1,0 +1,173 @@
+"use client";
+
+import { GlassSurface } from "@/components/ui/glass-surface";
+import { cn } from "@/lib/utils";
+import type { UniverseModule } from "@/lib/universe-modules";
+import { useScrollRootRef } from "@/lib/use-scroll-root";
+import { ModuleIconBadge } from "@/components/universe/module-icon-badge";
+import { ChevronRight } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import type { ReactNode } from "react";
+
+const easeOut = [0.16, 1, 0.3, 1] as const;
+
+type EcosystemModuleCardProps = {
+  module: UniverseModule;
+  index: number;
+  isActive: boolean;
+  isFeatured: boolean;
+  onSelect: () => void;
+};
+
+export function EcosystemModuleCard({
+  module,
+  index,
+  isActive,
+  isFeatured,
+  onSelect,
+}: EcosystemModuleCardProps): ReactNode {
+  const prefersReducedMotion = useReducedMotion();
+  const scrollRootRef = useScrollRootRef();
+  const Icon = module.icon;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onSelect}
+      aria-pressed={isActive}
+      aria-label={`${module.title}. ${module.shortDescription}`}
+      className={cn(
+        "group relative z-10 w-full text-left",
+        "md:mx-auto md:max-w-[10.75rem] lg:max-w-[11.25rem]",
+        "rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7ee8de]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+        "transition-[transform,opacity] duration-500",
+        isActive ? "scale-[1.03] opacity-100" : "scale-100 opacity-[0.88] hover:opacity-100",
+        isFeatured && !isActive && "md:scale-[1.01]",
+      )}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{
+        root: scrollRootRef,
+        once: true,
+        amount: 0.45,
+        margin: "0px 0px -6% 0px",
+      }}
+      transition={{
+        opacity: { duration: 0.6, delay: index * 0.08, ease: easeOut },
+        y: { duration: 0.6, delay: index * 0.08, ease: easeOut },
+      }}
+    >
+      <div
+        className={cn(
+          "rounded-full transition-shadow duration-500",
+          isActive &&
+            "shadow-[0_0_0_1px_rgba(154,245,236,0.55),0_0_32px_rgba(94,232,220,0.35),0_12px_40px_rgba(2,16,28,0.35)]",
+          !isActive &&
+            "shadow-[0_8px_28px_rgba(2,16,28,0.25)] group-hover:shadow-[0_0_20px_rgba(94,232,220,0.12)]",
+        )}
+      >
+        {prefersReducedMotion ? (
+          <ModuleGlass isActive={isActive}>
+            <CardInner module={module} Icon={Icon} isActive={isActive} />
+          </ModuleGlass>
+        ) : (
+          <motion.div
+            animate={isActive ? { y: [0, -4, 0] } : { y: 0 }}
+            transition={
+              isActive
+                ? { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.3 }
+            }
+          >
+            <ModuleGlass isActive={isActive}>
+              <CardInner module={module} Icon={Icon} isActive={isActive} />
+            </ModuleGlass>
+          </motion.div>
+        )}
+      </div>
+    </motion.button>
+  );
+}
+
+function ModuleGlass({
+  isActive,
+  children,
+}: {
+  isActive: boolean;
+  children: ReactNode;
+}): ReactNode {
+  return (
+    <GlassSurface
+      width="100%"
+      height="auto"
+      borderRadius={9999}
+      borderWidth={isActive ? 0.09 : 0.07}
+      brightness={isActive ? 62 : 56}
+      opacity={isActive ? 0.94 : 0.88}
+      blur={11}
+      displace={isActive ? 0.55 : 0.4}
+      backgroundOpacity={isActive ? 0.12 : 0.07}
+      saturation={isActive ? 1.65 : 1.4}
+      distortionScale={-180}
+      redOffset={0}
+      greenOffset={10}
+      blueOffset={20}
+      mixBlendMode="screen"
+      className={cn(
+        "ecosystem-glass w-full transition-transform duration-500",
+        isActive && "ring-1 ring-[#9af5ec]/40",
+        "group-hover:scale-[1.008]",
+      )}
+    >
+      {children}
+    </GlassSurface>
+  );
+}
+
+function CardInner({
+  module,
+  Icon,
+  isActive,
+}: {
+  module: UniverseModule;
+  Icon: UniverseModule["icon"];
+  isActive: boolean;
+}): ReactNode {
+  return (
+    <div
+      className={cn(
+        "flex w-full items-center gap-3.5 px-3 py-2.5 sm:gap-4 sm:px-4 sm:py-3",
+        "md:min-h-[8.25rem] md:flex-col md:items-center md:justify-center md:gap-3 md:px-3.5 md:py-5",
+      )}
+    >
+      <ModuleIconBadge icon={Icon} isActive={isActive} variant="card" />
+
+      <div className="min-w-0 flex-1 md:flex md:flex-1 md:items-center md:justify-center">
+        <h3
+          className={cn(
+            "font-sans font-bold leading-tight text-white",
+            isActive ? "text-[0.98rem] sm:text-base" : "text-[0.9rem] sm:text-[0.95rem]",
+            "md:text-center md:leading-snug",
+            isActive
+              ? "md:text-[1.02rem] lg:text-[1.06rem]"
+              : "md:text-[0.96rem] lg:text-[1rem]",
+          )}
+        >
+          {module.title}
+        </h3>
+      </div>
+
+      <ChevronRight
+        className={cn(
+          "h-4 w-4 shrink-0 transition-all duration-300",
+          "md:h-3.5 md:w-3.5",
+          isActive
+            ? "translate-x-0.5 text-[#9af5ec] md:translate-x-0 md:translate-y-0.5"
+            : "text-white/40 group-hover:translate-x-0.5 group-hover:text-[#9af5ec]/80 md:group-hover:translate-x-0 md:group-hover:translate-y-0.5",
+        )}
+        strokeWidth={2}
+        aria-hidden
+      />
+    </div>
+  );
+}

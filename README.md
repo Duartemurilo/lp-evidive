@@ -1,6 +1,6 @@
 # Minimal Landing Page Template
 
-A premium, production-ready Next.js 16+ landing page template with a clean, minimal design. Features WebGL shader effects, smooth animations, dark mode, and full accessibility.
+A premium, production-ready Next.js 16+ landing page template with a clean, minimal design. Features WebGL shader effects, smooth animations, light mode only, and full accessibility.
 
 ## ✨ Highlights
 
@@ -23,6 +23,7 @@ A premium, production-ready Next.js 16+ landing page template with a clean, mini
 - ✅ **SEO Ready** - metadata, Open Graph, Twitter cards
 - ✅ **Accessibility** - skip links, focus rings, ARIA labels
 - ✅ **Edge Compatible** - deploy anywhere
+- ✅ **Light Mode Only** - no theme toggle or dark mode switch
 
 ## 🚀 Quick Start
 
@@ -103,14 +104,9 @@ Edit `app/globals.css` to change your brand colors:
 
 ```css
 :root {
-  --accent: #ffd900;        /* Your primary brand color */
-  --background: #fafafa;    /* Light mode background */
-  --foreground: #0a0a0a;    /* Light mode text */
-}
-
-.dark {
-  --background: #0a0a0a;    /* Dark mode background */
-  --foreground: #fafafa;    /* Dark mode text */
+  --background: #f7f2ec;    /* Cream background */
+  --foreground: #225d6d;    /* Brand text color */
+  --accent: #1ec4b4;        /* Primary brand color */
 }
 ```
 
@@ -118,8 +114,8 @@ Edit `app/globals.css` to change your brand colors:
 
 | File | Purpose | Dimensions |
 |------|---------|------------|
-| `app/icon.svg` | Favicon | 32×32 |
-| `app/apple-icon.svg` | Apple touch icon | 180×180 |
+| `app/icon.png` | Favicon | 512×512 |
+| `app/apple-icon.png` | Apple touch icon | 180×180 |
 
 ### Step 4: Toggle Features
 
@@ -128,7 +124,7 @@ In `lib/config.ts`, enable/disable features:
 ```ts
 export const features = {
   smoothScroll: true,    // Lenis smooth scrolling
-  darkMode: true,        // Dark mode toggle
+  darkMode: false,       // Light mode only
   ditherCursor: true,    // WebGL cursor effect
   statsSection: true,    // Stats/metrics section
 };

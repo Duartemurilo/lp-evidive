@@ -60,20 +60,25 @@ function GitHubIcon({ className }: { className?: string }): ReactNode {
 
 export function Footer(): ReactNode {
   return (
-    <footer className="bg-accent px-6 py-16 text-black md:px-12 lg:px-20 rounded-tr-4xl rounded-tl-4xl">
+    <footer
+      id="fundo"
+      data-depth-label="Fundo"
+      data-depth="-50m"
+      className="rounded-tr-4xl rounded-tl-4xl bg-[#225d6d] px-6 py-20 text-background md:px-12 md:py-24 lg:px-20"
+    >
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <motion.div className="max-w-md" {...fadeInUp}>
-            <p className="text-lg leading-relaxed text-black/80">
+            <p className="text-lg leading-relaxed text-background/80">
               Ready to read smarter? TLDR transforms any article into a concise summary,
               helping you stay informed without the time commitment.
             </p>
             <Link
               href="#"
-              className="group mt-8 inline-flex items-center gap-3 rounded-md bg-white py-3 pl-4 pr-3 font-medium shadow-lg shadow-black/10 transition-all duration-500 ease-out hover:rounded-[50px] hover:bg-white/90 hover:shadow-xl hover:shadow-black/20"
+              className="font-display group mt-8 inline-flex items-center gap-3 rounded-md bg-background py-3 pl-4 pr-3 font-medium text-foreground shadow-lg shadow-black/10 transition-all duration-500 ease-out hover:rounded-[50px] hover:bg-background/90 hover:shadow-xl hover:shadow-black/20"
             >
               <span>Get Started Free</span>
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-black transition-all duration-300 group-hover:scale-110">
+              <span className="bg-foreground text-background flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
                 <ChevronRightIcon className="h-4 w-4 relative left-px" />
               </span>
             </Link>
@@ -81,7 +86,7 @@ export function Footer(): ReactNode {
 
           <div className="grid grid-cols-2 gap-8 lg:justify-items-end">
             <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
-              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-black/50">
+              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-background/60">
                 Product
               </h4>
               <ul className="space-y-3">
@@ -89,7 +94,7 @@ export function Footer(): ReactNode {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="inline-block text-black/80 transition-all duration-300 hover:translate-x-1 hover:text-black"
+                      className="inline-block text-background/80 transition-all duration-300 hover:translate-x-1 hover:text-background"
                     >
                       {link.label}
                     </Link>
@@ -98,7 +103,7 @@ export function Footer(): ReactNode {
               </ul>
             </motion.div>
             <motion.div {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.2 }}>
-              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-black/50">
+              <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-background/60">
                 Company
               </h4>
               <ul className="space-y-3">
@@ -106,7 +111,7 @@ export function Footer(): ReactNode {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="inline-block text-black/80 transition-all duration-300 hover:translate-x-1 hover:text-black"
+                      className="inline-block text-background/80 transition-all duration-300 hover:translate-x-1 hover:text-background"
                     >
                       {link.label}
                     </Link>
@@ -117,16 +122,16 @@ export function Footer(): ReactNode {
           </div>
         </div>
 
-        <div className="my-16 h-px bg-black/10" />
+        <div className="my-16 h-px bg-background/15" />
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           <motion.div {...fadeInUp}>
-            <h2 className="text-6xl font-medium leading-none tracking-tight md:text-7xl lg:text-8xl">
+            <h2 className="font-display text-6xl font-medium leading-none tracking-tight md:text-7xl lg:text-8xl">
               Reach
               <br />
               Out To Us
             </h2>
-            <p className="mt-8 text-sm text-black/50">
+            <p className="mt-8 text-sm text-background/60">
               © {new Date().getFullYear()} TLDR Technologies Inc.
             </p>
           </motion.div>
@@ -135,7 +140,7 @@ export function Footer(): ReactNode {
             <motion.div className="space-y-6" {...fadeInUp} transition={{ ...fadeInUp.transition, delay: 0.1 }}>
               <div>
                 <h4 className="mb-1 font-semibold">San Francisco</h4>
-                <p className="text-black/70">
+                <p className="text-background/70">
                   548 Market St, Suite 95000
                   <br />
                   San Francisco, CA 94104
@@ -145,7 +150,7 @@ export function Footer(): ReactNode {
               </div>
               <a
                 href="mailto:hello@tldr.app"
-                className="inline-block text-lg font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
+                className="font-display inline-block text-lg font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
               >
                 hello@tldr.app
               </a>
@@ -156,7 +161,7 @@ export function Footer(): ReactNode {
                 <a
                   key={label}
                   href={href}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black/10 text-black transition-all duration-300 hover:scale-110 hover:bg-black hover:text-accent"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-background/15 text-background transition-all duration-300 hover:scale-110 hover:bg-background hover:text-foreground"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />

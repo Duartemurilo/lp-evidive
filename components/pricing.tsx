@@ -96,7 +96,12 @@ export function Pricing(): ReactNode {
   }
 
   return (
-    <section className="bg-muted px-6 py-16 md:py-32">
+    <section
+      id="jornada"
+      data-depth-label="A Jornada"
+      data-depth="-22m"
+      className="bg-muted px-6 py-16 md:py-32"
+    >
       <div className="mx-auto max-w-6xl">
         <motion.div
           className="mb-12 text-center md:mb-16"
@@ -132,10 +137,10 @@ export function Pricing(): ReactNode {
         >
           <a
             href="#"
-            className="group inline-flex w-full items-center justify-center gap-3 rounded-md bg-accent py-3 pl-5 pr-3 font-medium text-black transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-lg hover:shadow-accent/20 sm:w-auto"
+            className="font-display group inline-flex w-full items-center justify-center gap-3 rounded-md bg-accent py-3 pl-5 pr-3 font-medium text-accent-foreground transition-all duration-500 ease-out hover:rounded-[50px] hover:shadow-lg hover:shadow-accent/20 sm:w-auto"
           >
             <span>Go Pro</span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-all duration-300 group-hover:scale-110">
+            <span className="bg-background text-foreground flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110">
               <ChevronRightIcon className="h-4 w-4 relative left-px" />
             </span>
           </a>

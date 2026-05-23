@@ -1,26 +1,29 @@
 import type { Metadata } from "next";
 
 export const siteConfig = {
-  name: "React Bits Pro - Minimal Template",
-  tagline: "Read smarter, not longer",
+  name: "Evidive",
+  tagline: "Concept Dive Center",
   description:
-    "AI-powered summaries for articles, videos, and documents. Save hours every week.",
-  url: "https://example.com",
-  ogImage: "/og-image.png",
-  creator: "@tldr",
+    "A Evidive é um concept dive center urbano que transforma o mergulho em uma experiência completa, acessível, segura e memorável.",
+  url: "https://www.evidive.com.br",
+  ogImage: "/backgrounds/splash-bg.png",
+  creator: "Evidive",
   authors: [
     {
-      name: "TLDR Technologies",
-      url: "https://example.com",
+      name: "Evidive",
+      url: "https://www.evidive.com.br",
     },
   ],
   keywords: [
-    "AI summarizer",
-    "article summary",
-    "TLDR",
-    "content summarization",
-    "productivity",
-    "reading assistant",
+    "Evidive",
+    "concept dive center",
+    "mergulho",
+    "freedive",
+    "PADI",
+    "mergulho urbano",
+    "treinamento de mergulho",
+    "experiência subaquática",
+    "São Paulo",
   ],
 } as const;
 
@@ -51,7 +54,7 @@ export const baseMetadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "pt_BR",
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
@@ -59,8 +62,8 @@ export const baseMetadata: Metadata = {
     images: [
       {
         url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
+        width: 1672,
+        height: 941,
         alt: siteConfig.name,
       },
     ],
@@ -73,8 +76,8 @@ export const baseMetadata: Metadata = {
     creator: siteConfig.creator,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
     apple: "/apple-icon.png",
   },
   manifest: "/site.webmanifest",

@@ -6,21 +6,22 @@
  */
 
 export const siteConfig = {
-  name: "TLDR",
-  tagline: "Read smarter, not longer",
-  description: "AI-powered summaries for articles, videos, and documents. Save hours every week.",
-  url: "https://example.com",
+  name: "Evidive",
+  tagline: "Concept Dive Center",
+  description:
+    "A Evidive é um concept dive center urbano que transforma o mergulho em uma experiência completa, acessível, segura e memorável.",
+  url: "https://www.evidive.com.br",
   social: {
-    twitter: "@tldr",
-    github: "https://github.com/tldr",
+    twitter: "@evidive",
+    github: "https://www.evidive.com.br",
   },
   nav: {
     cta: {
-      text: "Get Started",
+      text: "Explorar",
       href: "#",
     },
     signIn: {
-      text: "Sign in",
+      text: "Contato",
       href: "#",
     },
   },
@@ -29,7 +30,7 @@ export const siteConfig = {
 export const heroConfig = {
   headline: {
     prefix: "Get the",
-    accent: "TLDR",
+    accent: "Evidive",
     suffix: "on anything",
   },
   description: "Summarize articles, videos, podcasts, and PDFs instantly. Read smarter, not longer.",
@@ -108,17 +109,41 @@ export const faqConfig = {
   },
 } as const;
 
+/** Vídeo drone EviLago — pasta: drive.google.com/drive/folders/193tRl0zZ4nBVlhJt9YvcC4L7ToaQfEmP */
+export const eviLagoVideoConfig = {
+  /** Menor clip da pasta (270 MB) — trocar pelo ID do vídeo final quando definir */
+  driveFileId: "1A7JAdAMtVKIxnNFaKeiiMPJIJhFoDZZK",
+  driveFolderId: "193tRl0zZ4nBVlhJt9YvcC4L7ToaQfEmP",
+  fallbackSrc: "/assets/hero/GH010278.MP4",
+} as const;
+
+export function getGoogleDriveVideoStreamUrl(fileId: string): string {
+  return `https://drive.google.com/uc?export=download&id=${fileId}`;
+}
+
+export function getGoogleDriveVideoEmbedUrl(fileId: string): string {
+  return `https://drive.google.com/file/d/${fileId}/preview`;
+}
+
+export const emotionDiveConfig = {
+  bookingUrl: "https://emotiondive.com.br/experiencia-de-mergulho",
+  instructorWhatsAppUrl:
+    "https://api.whatsapp.com/send/?phone=5500000000000&text=Ol%C3%A1%2C+tenho+d%C3%BAvidas+sobre+o+Emotion+Dive&type=phone_number&app_absent=0",
+} as const;
+
 export const finalCtaConfig = {
-  headline: "Ready to save hours every week?",
-  description: "Join thousands who read smarter. Install the extension and start summarizing in seconds.",
+  headline: "Pronto para dar o primeiro passo?",
+  description:
+    "Fale com a Evidive e descubra como começar sua jornada no mergulho com segurança e acolhimento.",
   cta: {
-    text: "Add to Chrome",
-    href: "#",
+    text: "Falar com Evidive",
+    href: "https://api.whatsapp.com/send/?phone=5500000000000&text=Ol%C3%A1%2C+quero+falar+com+a+Evidive%21&type=phone_number&app_absent=0",
   },
 } as const;
 
 export const footerConfig = {
-  description: "Ready to read smarter? TLDR transforms any article into a concise summary, helping you stay informed without the time commitment.",
+  description:
+    "A Evidive transforma o mergulho em uma experiência completa, acessível, segura e memorável dentro da cidade.",
   cta: {
     text: "Get Started Free",
     href: "#",
@@ -143,7 +168,7 @@ export const footerConfig = {
     hours: "Mon-Fri 9:00 am - 6:00 pm (PST)",
     email: "hello@tldr.app",
   },
-  copyright: `© ${new Date().getFullYear()} TLDR Technologies Inc.`,
+  copyright: `© ${new Date().getFullYear()} Evidive`,
 } as const;
 
 /**
@@ -153,7 +178,21 @@ export const footerConfig = {
  */
 export const features = {
   smoothScroll: true,
-  darkMode: true,
+  darkMode: false,
   ditherCursor: true,
-  statsSection: true,
+  statsSection: false,
+  splash: true,
+} as const;
+
+/**
+ * Splash screen (canvas diver animation + optional dive sound).
+ */
+export const splashConfig = {
+  /** Show splash only once per browser tab session */
+  showOncePerSession: false,
+  /** Play dive sound (MP3 if present, else Web Audio synthesis) */
+  sound: true,
+  soundVolume: 0.55,
+  /** Optional MP3 in public/sounds/ — falls back to procedural audio if missing */
+  soundSrc: "/sounds/mergulho.mp3",
 } as const;
