@@ -89,7 +89,11 @@ export function AdminLayout({
               py: { xs: 2.5, md: 3.5 },
             }}
           >
-            <AdminBreadcrumbs currentLabel={breadcrumbLabel} />
+            {breadcrumbLabel !== undefined ? (
+              <AdminBreadcrumbs currentLabel={breadcrumbLabel} />
+            ) : (
+              <AdminBreadcrumbs />
+            )}
             {children}
           </Box>
         </Box>

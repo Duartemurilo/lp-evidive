@@ -76,7 +76,7 @@ export function tripExperienceTypesToViagemCategories(
   types: readonly TripExperienceType[] | null | undefined,
 ): ViagemCategory[] {
   if (!Array.isArray(types)) return [];
-  return types.map((type) => viagemCategoryMap[type]);
+  return types.map((type: TripExperienceType) => viagemCategoryMap[type]);
 }
 
 export function formatTripExperienceTypesLabel(

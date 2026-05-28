@@ -42,7 +42,7 @@ export async function checkAdminTripSlugAvailability(
 
   const response = await fetch(`/api/admin/trips/check-slug?${params.toString()}`, {
     cache: "no-store",
-    signal,
+    ...(signal ? { signal } : {}),
   });
   return parseResponse<{ available: boolean }>(response);
 }

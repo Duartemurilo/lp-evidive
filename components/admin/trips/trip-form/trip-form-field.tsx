@@ -89,9 +89,9 @@ export function TripFormTextField({
   return (
     <TripFormField
       label={label}
-      required={required}
-      helperText={helperText}
-      error={error}
+      {...(required !== undefined ? { required } : {})}
+      {...(helperText !== undefined ? { helperText } : {})}
+      {...(error !== undefined ? { error } : {})}
     >
       <TextField
         {...textFieldProps}
@@ -135,9 +135,9 @@ export function TripFormSelect({
   return (
     <TripFormField
       label={label}
-      required={required}
-      helperText={helperText}
-      error={error}
+      {...(required !== undefined ? { required } : {})}
+      {...(helperText !== undefined ? { helperText } : {})}
+      {...(error !== undefined ? { error } : {})}
     >
       <FormControl fullWidth error={error}>
         <Select
@@ -154,12 +154,20 @@ export function TripFormSelect({
             }
             const option = options.find((item) => item.value === selected);
             if (!option) return selected;
-            return <SelectOptionContent flag={option.flag} label={option.label} />;
+            return (
+              <SelectOptionContent
+                {...(option.flag ? { flag: option.flag } : {})}
+                label={option.label}
+              />
+            );
           }}
         >
           {options.map((option) => (
             <MenuItem key={option.value} value={option.value}>
-              <SelectOptionContent flag={option.flag} label={option.label} />
+              <SelectOptionContent
+                {...(option.flag ? { flag: option.flag } : {})}
+                label={option.label}
+              />
             </MenuItem>
           ))}
         </Select>

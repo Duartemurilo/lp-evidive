@@ -61,7 +61,7 @@ function SidebarLogo({
     <Box
       component={Link}
       href="/admin/viagens"
-      onClick={onNavigate}
+      {...(onNavigate ? { onClick: onNavigate } : {})}
       sx={{
         display: "flex",
         alignItems: "center",
@@ -127,7 +127,10 @@ function SidebarContent({
           borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <SidebarLogo collapsed={collapsed} onNavigate={onNavigate} />
+        <SidebarLogo
+          collapsed={collapsed}
+          {...(onNavigate ? { onNavigate } : {})}
+        />
       </Box>
 
       <List

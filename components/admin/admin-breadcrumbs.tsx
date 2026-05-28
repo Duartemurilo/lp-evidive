@@ -17,7 +17,10 @@ type AdminBreadcrumbsProps = {
 
 export function AdminBreadcrumbs({ currentLabel }: AdminBreadcrumbsProps): ReactNode {
   const pathname = usePathname();
-  const items = getAdminBreadcrumbs(pathname, { currentLabel });
+  const items = getAdminBreadcrumbs(
+    pathname,
+    currentLabel !== undefined ? { currentLabel } : undefined,
+  );
 
   if (items.length === 0) return null;
 

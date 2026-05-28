@@ -124,7 +124,7 @@ export function TripFormDateRange({
               label="Data de início"
               format="DD/MM/YYYY"
               value={startValue}
-              maxDate={endValue ?? undefined}
+              {...(endValue ? { maxDate: endValue } : {})}
               onChange={(next) => onStartDateChange(toIsoDate(next))}
               slotProps={{
                 ...datePickerSlotProps,
@@ -156,7 +156,7 @@ export function TripFormDateRange({
               label="Data de término"
               format="DD/MM/YYYY"
               value={endValue}
-              minDate={startValue ?? undefined}
+              {...(startValue ? { minDate: startValue } : {})}
               onChange={(next) => onEndDateChange(toIsoDate(next))}
               slotProps={{
                 ...datePickerSlotProps,
