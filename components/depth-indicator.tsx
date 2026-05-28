@@ -3,16 +3,13 @@
 import {
   depthSections as sections,
   formatDepth,
-  PRIMEIRO_MERGULHO_DEPTH_METERS,
-  SURFACE_DEPTH_METERS,
-  SURFACE_ZONE_IDS,
+  getMaxDepthMeters,
 } from "@/lib/depth-sections";
 import { usePageRevealReady } from "@/lib/use-page-reveal";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
-const INTERMEDIATE_TICKS = 2;
 
 function getScrollRoot(): HTMLElement | null {
   return document.querySelector<HTMLElement>("[data-scroll-root]");
@@ -25,42 +22,6 @@ function getElementDistanceToFocus(
   const rect = element.getBoundingClientRect();
   const sectionCenter = rect.top + rect.height / 2;
   return Math.abs(sectionCenter - focusY);
-}
-
-function getSurfaceZoneDistance(focusY: number): number {
-  let best = Number.POSITIVE_INFINITY;
-
-  for (const id of SURFACE_ZONE_IDS) {
-    const element = document.getElementById(id);
-    if (!element) {
-      continue;
-    }
-
-    best = Math.min(best, getElementDistanceToFocus(element, focusY));
-  }
-
-  return best;
-}
-
-function getSurfaceZoneBottom(focusRoot: HTMLElement): number | null {
-  let maxBottom = Number.NEGATIVE_INFINITY;
-  let found = false;
-
-  for (const id of SURFACE_ZONE_IDS) {
-    const element = document.getElementById(id);
-    if (!element) {
-      continue;
-    }
-
-    found = true;
-    maxBottom = Math.max(maxBottom, element.getBoundingClientRect().bottom);
-  }
-
-  if (!found) {
-    return null;
-  }
-
-  return maxBottom - focusRoot.getBoundingClientRect().top;
 }
 
 function WaveFooter({ dark }: { dark: boolean }): ReactNode {
@@ -96,93 +57,44 @@ function resolveDepthFromScroll(root: HTMLElement): DepthScrollState {
   let bestDistance = Number.POSITIVE_INFINITY;
 
   sections.forEach((section, index) => {
-    const distance =
-      section.id === "superficie"
-        ? getSurfaceZoneDistance(focusY)
-        : (() => {
-            const element = document.getElementById(section.id);
-            if (!element) {
-              return Number.POSITIVE_INFINITY;
-            }
-            return getElementDistanceToFocus(element, focusY);
-          })();
+    const element = document.getElementById(section.id);
+    if (!element) {
+      return;
+    }
 
+    const distance = getElementDistanceToFocus(element, focusY);
     if (distance < bestDistance) {
       bestDistance = distance;
       sectionIndex = index;
     }
   });
 
-  const activeSection = sections[sectionIndex] ?? sections[0]!;
-  let depthMeters = activeSection.depthMeters;
+  const current = sections[sectionIndex] ?? sections[0]!;
 
-  const primeiroEl = document.getElementById("primeiro-mergulho");
-  const surfaceBottom = getSurfaceZoneBottom(root);
-
-  if (primeiroEl && surfaceBottom !== null) {
-    const primeiroRect = primeiroEl.getBoundingClientRect();
-    const primeiroTop = primeiroRect.top - rootRect.top;
-    const gap = primeiroTop - surfaceBottom;
-
-    if (gap > 0 && focusY > surfaceBottom && focusY < primeiroTop) {
-      const progress = Math.min(
-        1,
-        Math.max(0, (focusY - surfaceBottom) / gap),
-      );
-      depthMeters = Math.round(
-        progress * PRIMEIRO_MERGULHO_DEPTH_METERS,
-      );
-      sectionIndex = 0;
-    } else if (focusY >= primeiroTop + primeiroRect.height * 0.2) {
-      depthMeters = Math.max(
-        depthMeters,
-        PRIMEIRO_MERGULHO_DEPTH_METERS,
-      );
-    } else if (sectionIndex === 0) {
-      depthMeters = SURFACE_DEPTH_METERS;
-    }
-  } else if (sectionIndex === 0) {
-    depthMeters = SURFACE_DEPTH_METERS;
-  }
-
-  return { sectionIndex, depthMeters };
+  return {
+    sectionIndex,
+    depthMeters: current.depthMeters,
+  };
 }
 
 export function DepthIndicator(): ReactNode {
   const prefersReducedMotion = useReducedMotion();
   const revealReady = usePageRevealReady();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [displayDepth, setDisplayDepth] = useState(SURFACE_DEPTH_METERS);
+  const [displayDepth, setDisplayDepth] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const activeSection = sections[activeIndex] ?? sections[0]!;
   const isDarkTone = activeSection.tone === "dark";
-  const maxDepth = sections[sections.length - 1]?.depthMeters ?? 0;
+  const maxDepth = getMaxDepthMeters();
 
   const tickMarks = useMemo(
     () =>
-      sections.flatMap((section, index) => {
-        const current = section.depthMeters;
-        const next = sections[index + 1]?.depthMeters;
-
-        if (typeof next !== "number") {
-          return [{ depthMeters: current, kind: "major" as const, section }];
-        }
-
-        const gap = next - current;
-        const minorPositions = Array.from(
-          { length: INTERMEDIATE_TICKS },
-          (_, minorIndex) => ({
-            depthMeters:
-              current + ((minorIndex + 1) * gap) / (INTERMEDIATE_TICKS + 1),
-            kind: "minor" as const,
-          }),
-        );
-
-        return [
-          { depthMeters: current, kind: "major" as const, section },
-          ...minorPositions,
-        ];
-      }),
+      sections
+        .filter((section) => section.showBreakpoint !== false)
+        .map((section) => ({
+          depthMeters: section.depthMeters,
+          section,
+        })),
     [],
   );
 
@@ -233,13 +145,6 @@ export function DepthIndicator(): ReactNode {
     };
   }, []);
 
-  const isActiveTick = (tickDepth: number, isMajor: boolean): boolean => {
-    if (!isMajor) {
-      return false;
-    }
-    return tickDepth === activeSection.depthMeters && displayDepth >= tickDepth;
-  };
-
   return (
     <aside className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 md:block lg:right-8 xl:right-10">
       <motion.div
@@ -250,7 +155,7 @@ export function DepthIndicator(): ReactNode {
             : { opacity: 0, x: 12 }
         }
         transition={{ duration: 0.55, ease: easeOut }}
-        className={`pointer-events-auto flex w-[5.5rem] flex-col items-center rounded-2xl px-3 py-4 shadow-[0_10px_40px_rgba(4,20,28,0.28)] backdrop-blur-md ${
+        className={`pointer-events-auto flex w-[5.75rem] flex-col items-center rounded-2xl px-3 py-4 shadow-[0_10px_40px_rgba(4,20,28,0.28)] backdrop-blur-md ${
           isDarkTone
             ? "bg-[#041820]/72 ring-1 ring-white/14"
             : "bg-white/92 ring-1 ring-foreground/12"
@@ -258,12 +163,14 @@ export function DepthIndicator(): ReactNode {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="mb-3 flex flex-col items-center text-center">
-          <motion.span
-            key={displayDepth}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25, ease: easeOut }}
+        <motion.div
+          className="mb-3 flex flex-col items-center text-center"
+          key={`${activeSection.id}-${displayDepth}`}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: easeOut }}
+        >
+          <span
             className={`font-display text-[1.1rem] font-bold leading-none tracking-tight ${
               isDarkTone
                 ? "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]"
@@ -271,18 +178,18 @@ export function DepthIndicator(): ReactNode {
             }`}
           >
             {formatDepth(displayDepth)}
-          </motion.span>
+          </span>
           <span
-            className={`mt-1.5 text-[0.7rem] font-medium leading-none ${
+            className={`mt-1.5 max-w-[4.5rem] text-[0.62rem] font-medium leading-tight ${
               isDarkTone ? "text-white/88" : "text-foreground/78"
             }`}
           >
             {activeSection.label}
           </span>
-        </div>
+        </motion.div>
 
-        <div className="relative mx-auto h-[18rem] w-10 overflow-visible">
-          <div
+        <motion.div className="relative mx-auto h-[22rem] w-10 overflow-visible">
+          <motion.div
             className={`absolute left-1/2 top-0 z-0 h-full w-px -translate-x-1/2 rounded-full ${
               isDarkTone ? "bg-white/38" : "bg-foreground/28"
             }`}
@@ -299,29 +206,32 @@ export function DepthIndicator(): ReactNode {
           />
 
           {tickMarks.map((tick) => {
-            const isMajor = tick.kind === "major";
-            const section = isMajor ? tick.section : undefined;
-            const isActive = isActiveTick(tick.depthMeters, isMajor);
-            const showDot = isMajor && section && (isActive || isHovered);
-            const showTick =
-              !isMajor || isActive || (isHovered && isMajor);
+            const { section } = tick;
+            const isActive = section.id === activeSection.id;
+            const showDot = isActive || isHovered;
             const position =
               maxDepth === 0 ? 0 : (tick.depthMeters / maxDepth) * 100;
 
             return (
-              <div
-                key={`${tick.kind}-${tick.depthMeters}`}
+              <motion.div
+                key={section.id}
                 className="pointer-events-none absolute left-1/2 z-10 -translate-x-1/2"
                 style={{ top: `${position}%` }}
               >
-                {showTick ? (
-                  <span
-                    aria-hidden="true"
-                    className={`absolute left-1/2 top-1/2 block h-px -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ${
-                      isMajor ? "w-6" : "w-3"
-                    } ${isDarkTone ? "bg-white/50" : "bg-foreground/45"}`}
-                  />
-                ) : null}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-1/2 top-1/2 block h-px -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ${
+                    isActive ? "w-7" : "w-6"
+                  } ${
+                    isActive
+                      ? isDarkTone
+                        ? "bg-[#5ee8dc]/90"
+                        : "bg-primary/90"
+                      : isDarkTone
+                        ? "bg-white/42"
+                        : "bg-foreground/38"
+                  }`}
+                />
                 {showDot ? (
                   <a
                     href={`#${section.id}`}
@@ -352,7 +262,7 @@ export function DepthIndicator(): ReactNode {
                     </span>
                   </a>
                 ) : null}
-              </div>
+              </motion.div>
             );
           })}
 
@@ -363,7 +273,7 @@ export function DepthIndicator(): ReactNode {
                 : "border-foreground/22 bg-transparent"
             }`}
           />
-        </div>
+        </motion.div>
 
         <div className="mt-3 flex flex-col items-center gap-1.5">
           <WaveFooter dark={isDarkTone} />

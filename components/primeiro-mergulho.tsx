@@ -1,5 +1,7 @@
 "use client";
 
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { SectionTitle } from "@/components/section-title";
 import { WaveDivider } from "@/components/wave-divider";
 import { emotionDiveConfig } from "@/lib/config";
 import { ChevronRight } from "lucide-react";
@@ -119,19 +121,20 @@ export function PrimeiroMergulho(): ReactNode {
           transition={{ duration: 0.6, ease: easeOut }}
         >
           <div className="mb-5 flex flex-col md:mb-6 lg:mb-6 lg:items-end">
-            <p className="mb-2 text-sm font-medium uppercase tracking-[0.28em] text-foreground/80 lg:mb-2.5 lg:text-right">
+            <SectionEyebrow className="text-foreground/80 lg:text-right">
               Primeiro Mergulho
-            </p>
-            <div className="flex justify-start text-foreground/75 lg:justify-end">
-              <WaveDivider className="h-2.5 w-[min(10rem,36vw)]" />
+            </SectionEyebrow>
+            <div className="mb-5 mt-4 flex justify-start text-foreground/75 sm:mb-6 sm:mt-5 lg:justify-end">
+              <WaveDivider />
             </div>
           </div>
-          <h2 className="font-display text-[clamp(1.85rem,4.5vw,2.75rem)] font-bold leading-[1.08] tracking-tight text-foreground lg:text-right">
-            Faça seu primeiro
-            <span className="mt-2 block text-[clamp(1.35rem,3.2vw,2rem)] font-normal text-foreground/88">
-              mergulho com cilindro de ar.
-            </span>
-          </h2>
+          <SectionTitle
+            sans="Faça seu primeiro"
+            display="mergulho com cilindro de ar."
+            sansClassName="text-black"
+            displayClassName="text-foreground"
+            className="lg:text-right"
+          />
           <p className="text-muted-foreground mt-6 text-sm leading-relaxed md:text-base lg:text-right">
             O Emotion Dive é mais que uma aventura: é o começo de uma nova relação
             com a água. Esqueça a rotina, o trânsito e o estresse. Você está a

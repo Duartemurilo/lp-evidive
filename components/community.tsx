@@ -1,5 +1,7 @@
 "use client";
 
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { SectionTitle } from "@/components/section-title";
 import { WaveDivider } from "@/components/wave-divider";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -116,7 +118,7 @@ export function Community(): ReactNode {
     <section
       id="comunidade"
       data-depth-label="Comunidade"
-      data-depth="-40m"
+      data-depth="-75m"
       className="bg-background overflow-hidden py-20 text-foreground md:py-40 lg:py-48"
     >
       <div className="mx-auto max-w-6xl px-6">
@@ -127,18 +129,16 @@ export function Community(): ReactNode {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: easeOut }}
         >
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.28em] text-foreground/75">
-            Comunidade
-          </p>
+          <SectionEyebrow className="mb-3 text-foreground/75">Comunidade</SectionEyebrow>
           <div className="mb-6 flex justify-center text-foreground/70">
             <WaveDivider className="h-2.5 w-[min(10rem,36vw)]" />
           </div>
-          <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.06] tracking-tight text-foreground">
-            Mais do que mergulho.
-            <span className="mt-2 block text-[clamp(1.35rem,3.2vw,2.25rem)] font-normal text-foreground/88">
-              Uma comunidade.
-            </span>
-          </h2>
+          <SectionTitle
+            sans="Mais do que mergulho."
+            display="Uma comunidade."
+            sansClassName="text-black"
+            displayClassName="text-foreground"
+          />
         </motion.header>
 
         <motion.div

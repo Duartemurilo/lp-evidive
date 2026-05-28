@@ -5,6 +5,8 @@
  * Update these values to personalize your template.
  */
 
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
+
 export const siteConfig = {
   name: "Evidive",
   tagline: "Concept Dive Center",
@@ -12,8 +14,12 @@ export const siteConfig = {
     "A Evidive é um concept dive center urbano que transforma o mergulho em uma experiência completa, acessível, segura e memorável.",
   url: "https://www.evidive.com.br",
   social: {
-    twitter: "@evidive",
-    github: "https://www.evidive.com.br",
+    facebook: "https://www.facebook.com/evidive",
+    instagram: "https://www.instagram.com/evidivecenter/",
+    youtube: "https://www.youtube.com/@EvidiveEscoladeMergulho",
+    tiktok: "https://www.tiktok.com/@evidivecenter",
+    linkedin:
+      "https://br.linkedin.com/company/evidive-escola-de-mergulho",
   },
   nav: {
     cta: {
@@ -109,12 +115,16 @@ export const faqConfig = {
   },
 } as const;
 
-/** Vídeo drone EviLago — pasta: drive.google.com/drive/folders/193tRl0zZ4nBVlhJt9YvcC4L7ToaQfEmP */
 export const eviLagoVideoConfig = {
-  /** Menor clip da pasta (270 MB) — trocar pelo ID do vídeo final quando definir */
+  /** Menor clip da pasta — trocar pelo ID do vídeo final quando definir */
   driveFileId: "1A7JAdAMtVKIxnNFaKeiiMPJIJhFoDZZK",
-  driveFolderId: "193tRl0zZ4nBVlhJt9YvcC4L7ToaQfEmP",
+  /** Arquivo local (sempre disponível no deploy) */
   fallbackSrc: "/assets/hero/GH010278.MP4",
+  /**
+   * URL remota opcional (Vercel Blob, CDN, etc.).
+   * Se ausente ou inacessível, usa fallbackSrc e depois Google Drive.
+   */
+  remoteSrc: process.env.NEXT_PUBLIC_EVI_LAGO_VIDEO_URL,
 } as const;
 
 export function getGoogleDriveVideoStreamUrl(fileId: string): string {
@@ -127,8 +137,88 @@ export function getGoogleDriveVideoEmbedUrl(fileId: string): string {
 
 export const emotionDiveConfig = {
   bookingUrl: "https://emotiondive.com.br/experiencia-de-mergulho",
-  instructorWhatsAppUrl:
-    "https://api.whatsapp.com/send/?phone=5500000000000&text=Ol%C3%A1%2C+tenho+d%C3%BAvidas+sobre+o+Emotion+Dive&type=phone_number&app_absent=0",
+  instructorWhatsAppUrl: buildWhatsAppUrl(
+    "Olá, tenho dúvidas sobre o Emotion Dive",
+  ),
+  storeWhatsAppUrl: buildWhatsAppUrl("Olá, quero saber mais sobre a loja!"),
+} as const;
+
+export const openWaterCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o Curso Básico de Mergulho com Cilindro (Open Water) na Evidive — preços, datas e matrícula.",
+  ),
+  enrollWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Não quero esperar mais — quero mergulhar! Vim pela página do Curso Básico Open Water da Evidive.",
+  ),
+} as const;
+
+export const scubaDiverCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Scuba Diver na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso PADI Scuba Diver.",
+  ),
+} as const;
+
+export const emergencyFirstResponseCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Emergency First Response (Primeiros Socorros) na Evidive — preços, datas e matrícula.",
+  ),
+} as const;
+
+export const rescueDiverCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Rescue Diver (Resgate) na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso PADI Rescue Diver.",
+  ),
+} as const;
+
+export const peakPerformanceBuoyancyCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Peak Performance Buoyancy (Flutuabilidade) na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso PADI PPB (Flutuabilidade).",
+  ),
+} as const;
+
+export const nitroxCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Enriched Air Diver (NITROX) na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso NITROX na Evidive.",
+  ),
+} as const;
+
+export const actionCameraCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso Eviaction Câmera de Ação (GoPro) na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso Câmera de Ação / GoPro.",
+  ),
+} as const;
+
+export const divemasterCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Divemaster na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do programa Divemaster na Evidive.",
+  ),
+} as const;
+
+export const basicFreediverCourseConfig = {
+  infoWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero saber mais sobre o curso PADI Basic Freediver (Mergulho Livre Básico) na Evidive — preços, datas e matrícula.",
+  ),
+  contactWhatsAppUrl: buildWhatsAppUrl(
+    "Olá! Quero falar com o time da Evidive sobre preços e datas do curso Basic Freediver na Evidive.",
+  ),
 } as const;
 
 export const finalCtaConfig = {
@@ -137,38 +227,22 @@ export const finalCtaConfig = {
     "Fale com a Evidive e descubra como começar sua jornada no mergulho com segurança e acolhimento.",
   cta: {
     text: "Falar com Evidive",
-    href: "https://api.whatsapp.com/send/?phone=5500000000000&text=Ol%C3%A1%2C+quero+falar+com+a+Evidive%21&type=phone_number&app_absent=0",
+    href: buildWhatsAppUrl("Olá, quero falar com a Evidive!"),
   },
 } as const;
 
+export const whatsappFloatConfig = {
+  href: buildWhatsAppUrl("Olá, quero saber mais sobre os mergulhos!"),
+  label: "Falar no WhatsApp sobre mergulhos",
+} as const;
+
 export const footerConfig = {
-  description:
-    "A Evidive transforma o mergulho em uma experiência completa, acessível, segura e memorável dentro da cidade.",
   cta: {
-    text: "Get Started Free",
-    href: "#",
+    text: "Quero mergulhar com a Evidive",
+    href: finalCtaConfig.cta.href,
   },
-  links: {
-    product: [
-      { label: "Chrome Extension", href: "#" },
-      { label: "Safari Extension", href: "#" },
-      { label: "API Access", href: "#" },
-      { label: "Enterprise", href: "#" },
-    ],
-    company: [
-      { label: "About", href: "#" },
-      { label: "Blog", href: "#" },
-      { label: "Careers", href: "#" },
-      { label: "Contact", href: "#" },
-    ],
-  },
-  contact: {
-    location: "San Francisco",
-    address: "548 Market St, Suite 95000\nSan Francisco, CA 94104",
-    hours: "Mon-Fri 9:00 am - 6:00 pm (PST)",
-    email: "hello@tldr.app",
-  },
-  copyright: `© ${new Date().getFullYear()} Evidive`,
+  contactLink: finalCtaConfig.cta,
+  copyright: `© ${new Date().getFullYear()} Evidive. Todos os direitos reservados.`,
 } as const;
 
 /**
@@ -188,8 +262,11 @@ export const features = {
  * Splash screen (canvas diver animation + optional dive sound).
  */
 export const splashConfig = {
-  /** Show splash only once per browser tab session */
-  showOncePerSession: false,
+  /**
+   * Após a primeira splash na aba, não repetir em navegação interna.
+   * Reload (F5) sempre exibe de novo.
+   */
+  showOncePerSession: true,
   /** Play dive sound (MP3 if present, else Web Audio synthesis) */
   sound: true,
   soundVolume: 0.55,

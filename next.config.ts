@@ -1,6 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/cursos/primeira-experiencia-de-mergulho",
+        destination: "/cursos/emotion-dive",
+        permanent: true,
+      },
+      {
+        source: "/cursos/divemaster",
+        destination: "/cursos/padi-divemaster",
+        permanent: true,
+      },
+    ];
+  },
   // Disable source maps in production to prevent easy code inspection
   productionBrowserSourceMaps: false,
   // Additional optimizations

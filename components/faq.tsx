@@ -54,8 +54,9 @@ function FAQItem({
       transition={{ duration: 0.5, delay: index * 0.05, ease: easeOut }}
     >
       <button
+        type="button"
         onClick={onToggle}
-        className="group flex w-full items-center justify-between py-6 text-left"
+        className="group flex w-full cursor-pointer items-center justify-between py-6 text-left"
       >
         <span className="text-foreground text-lg font-medium pr-8 md:text-xl">
           {faq.question}

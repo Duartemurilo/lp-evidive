@@ -3,6 +3,8 @@
 import { EcosystemModuleCard } from "@/components/universe/ecosystem-module-card";
 import { JourneyConnector } from "@/components/universe/journey-connector";
 import { RisingBubbles } from "@/components/universe/rising-bubbles";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { SectionTitle } from "@/components/section-title";
 import { WaveDivider } from "@/components/wave-divider";
 import {
   DEFAULT_MODULE_ID,
@@ -13,8 +15,7 @@ import {
 } from "@/lib/universe-modules";
 import { useScrollRootRef } from "@/lib/use-scroll-root";
 import { motion, useInView } from "motion/react";
-import { useState, type ReactNode } from "react";
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
@@ -30,14 +31,10 @@ const TIER_GRID: Record<JourneyTier, string> = {
 function JourneyRow({
   tier,
   modules,
-  activeId,
-  onSelect,
   startIndex,
 }: {
   tier: JourneyTier;
   modules: UniverseModule[];
-  activeId: string;
-  onSelect: (id: string) => void;
   startIndex: number;
 }): ReactNode {
   const meta = JOURNEY_TIERS.find((item) => item.id === tier)!;
@@ -62,9 +59,7 @@ function JourneyRow({
             key={module.id}
             module={module}
             index={startIndex + index}
-            isActive={activeId === module.id}
             isFeatured={module.id === DEFAULT_MODULE_ID}
-            onSelect={() => onSelect(module.id)}
           />
         ))}
       </div>
@@ -76,7 +71,6 @@ export function HowItWorks(): ReactNode {
   const headerRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef<HTMLDivElement>(null);
   const scrollRootRef = useScrollRootRef();
-  const [activeId, setActiveId] = useState(DEFAULT_MODULE_ID);
 
   const isHeaderInView = useInView(headerRef, {
     root: scrollRootRef,
@@ -97,8 +91,8 @@ export function HowItWorks(): ReactNode {
   return (
     <section
       id="universo"
-      data-depth-label="Universo"
-      data-depth="0m"
+      data-depth-label="O ecossistema completo"
+      data-depth="-20m"
       className="relative isolate min-h-dvh overflow-hidden px-6 pt-20 pb-0 md:pt-32"
     >
       <RisingBubbles className="z-[1] opacity-90" />
@@ -111,15 +105,21 @@ export function HowItWorks(): ReactNode {
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: easeOut }}
         >
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.28em] text-white/90 sm:text-base">
+          <SectionEyebrow className="mb-3 text-white/90">
             O ecossistema completo
-          </p>
+          </SectionEyebrow>
           <div className="mb-6 flex justify-center text-white/85 sm:mb-8">
             <WaveDivider />
           </div>
-          <h2 className="font-display text-[clamp(2rem,5.2vw,3.85rem)] font-bold leading-[1.04] tracking-tight text-white">
-            O Universo Evidive
-          </h2>
+          <SectionTitle
+            sans="O Universo "
+            display="Evidive"
+            displayInline
+            size="large"
+            sansClassName="text-white"
+            displayClassName="text-primary"
+            className="mx-auto whitespace-nowrap"
+          />
           <motion.p
             className="mx-auto mt-5 max-w-2xl text-[0.95rem] leading-relaxed text-white sm:text-base md:text-lg [text-shadow:0_1px_14px_rgba(4,18,26,0.72),0_0_1px_rgba(0,0,0,0.9)]"
             initial={{ opacity: 0, y: 16 }}
@@ -147,22 +147,16 @@ export function HowItWorks(): ReactNode {
             <JourneyRow
               tier="entrada"
               modules={entrada}
-              activeId={activeId}
-              onSelect={setActiveId}
               startIndex={0}
             />
             <JourneyRow
               tier="exploracao"
               modules={exploracao}
-              activeId={activeId}
-              onSelect={setActiveId}
               startIndex={2}
             />
             <JourneyRow
               tier="expansao"
               modules={expansao}
-              activeId={activeId}
-              onSelect={setActiveId}
               startIndex={5}
             />
           </div>

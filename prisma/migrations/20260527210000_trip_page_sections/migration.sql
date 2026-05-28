@@ -1,0 +1,1 @@
+ALTER TABLE "Trip" ADD COLUMN "pageSections" JSONB NOT NULL DEFAULT '[]';

@@ -1,7 +1,7 @@
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
+import { SiteChrome } from "@/components/site-chrome";
 import { SkipToContent } from "@/components/skip-to-content";
+import { ClerkProvider } from "@clerk/nextjs";
 import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
@@ -61,12 +61,17 @@ export default function RootLayout({
       <body
         className={`${garet.variable} ${todayShop.variable} relative min-h-screen bg-background font-sans text-foreground antialiased`}
       >
-        <Providers>
-          <SkipToContent />
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
+        <ClerkProvider
+          signInUrl="/admin/login"
+          signUpUrl="/sign-up"
+          signInFallbackRedirectUrl="/admin/viagens"
+          signUpFallbackRedirectUrl="/admin/viagens"
+        >
+          <Providers>
+            <SkipToContent />
+            <SiteChrome>{children}</SiteChrome>
+          </Providers>
+        </ClerkProvider>
       </body>
     </html>
   );

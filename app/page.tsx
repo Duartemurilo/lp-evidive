@@ -1,10 +1,12 @@
 import { Features } from "@/components/features";
-import { EviLagoVideo } from "@/components/evi-lago-video";
+import { DepthTransitionDivider } from "@/components/depth-transition-divider";
+import { Formacao } from "@/components/formacao";
 import { PrimeiroMergulho } from "@/components/primeiro-mergulho";
 import { FinalCTA } from "@/components/final-cta";
 import { DepthIndicator } from "@/components/depth-indicator";
 import { DiveSurfaceDepthSections } from "@/components/dive-surface-depth-sections";
 import { Community } from "@/components/community";
+import { HomeViagensTeaser } from "@/components/home-viagens-teaser";
 import type { Metadata } from "next";
 import { createMetadata, siteConfig } from "@/lib/metadata";
 import type { ReactNode } from "react";
@@ -21,10 +23,12 @@ export default function HomePage(): ReactNode {
       <div className="dive-shore-boundary relative">
         <DiveSurfaceDepthSections />
         <PrimeiroMergulho />
-        <EviLagoVideo />
+        <Formacao />
+        <DepthTransitionDivider />
         <Features />
       </div>
       <Community />
+      <HomeViagensTeaser />
       <FinalCTA />
       <DepthIndicator />
     </main>

@@ -1,75 +1,136 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
-import Lenis from "lenis";
+import { LenisContext } from "@/lib/lenis-context";
 import { features } from "@/lib/config";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function SmoothScroll({ children }: { children: ReactNode }): ReactNode {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    if (!features.smoothScroll) return;
-    if (!wrapperRef.current || !contentRef.current) return;
+    const wrapper = wrapperRef.current;
+    if (!wrapper) {
+      return;
+    }
 
-    // Check for reduced motion preference
+    ScrollTrigger.defaults({ scroller: wrapper });
+
+    const onScroll = () => ScrollTrigger.update();
+    wrapper.addEventListener("scroll", onScroll, { passive: true });
+
+    if (!features.smoothScroll) {
+      setLenis(null);
+      return () => {
+        wrapper.removeEventListener("scroll", onScroll);
+        ScrollTrigger.clearScrollMemory();
+        ScrollTrigger.defaults({});
+      };
+    }
+
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !contentRef.current) {
+      setLenis(null);
+      return () => {
+        wrapper.removeEventListener("scroll", onScroll);
+        ScrollTrigger.clearScrollMemory();
+        ScrollTrigger.defaults({});
+      };
+    }
 
-    // Use wrapper element instead of window - this fixes sticky positioning
-    const lenis = new Lenis({
-      wrapper: wrapperRef.current,
+    const lenisInstance = new Lenis({
+      wrapper,
       content: contentRef.current,
       duration: 1.6,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical" as const,
-      gestureOrientation: "vertical" as const,
+      orientation: "vertical",
+      gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
     });
 
+    setLenis(lenisInstance);
+
+    lenisInstance.on("scroll", ScrollTrigger.update);
+
+    ScrollTrigger.scrollerProxy(wrapper, {
+      scrollTop(value) {
+        if (arguments.length && typeof value === "number") {
+          lenisInstance.scrollTo(value, { immediate: true });
+        }
+        return lenisInstance.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: wrapper.style.transform ? "transform" : "fixed",
+    });
+
     function raf(time: number) {
-      lenis.raf(time);
+      lenisInstance.raf(time);
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
 
-    // Handle anchor link clicks
     function handleAnchorClick(e: MouseEvent) {
       const target = e.target as HTMLElement;
       const anchor = target.closest('a[href^="#"]');
-      if (!anchor) return;
+      if (!anchor) {
+        return;
+      }
 
       const href = anchor.getAttribute("href");
-      if (!href || href === "#") return;
+      if (!href || href === "#") {
+        return;
+      }
 
       const element = document.querySelector(href);
-      if (!element) return;
+      if (!element) {
+        return;
+      }
 
       e.preventDefault();
-      lenis.scrollTo(element as HTMLElement, { offset: -100 });
+      lenisInstance.scrollTo(element as HTMLElement, { offset: -100 });
     }
 
     document.addEventListener("click", handleAnchorClick);
 
     return () => {
       document.removeEventListener("click", handleAnchorClick);
-      lenis.destroy();
+      lenisInstance.destroy();
+      setLenis(null);
+      wrapper.removeEventListener("scroll", onScroll);
+      ScrollTrigger.scrollerProxy(wrapper);
+      ScrollTrigger.clearScrollMemory();
+      ScrollTrigger.defaults({});
     };
   }, []);
 
   return (
-    <div
-      ref={wrapperRef}
-      data-scroll-root
-      className="h-screen overflow-y-auto overflow-x-hidden"
-    >
-      <div ref={contentRef}>{children}</div>
-    </div>
+    <LenisContext.Provider value={lenis}>
+      <div
+        ref={wrapperRef}
+        data-scroll-root
+        className="h-screen overflow-y-auto overflow-x-hidden"
+      >
+        <div ref={contentRef}>{children}</div>
+      </div>
+    </LenisContext.Provider>
   );
 }

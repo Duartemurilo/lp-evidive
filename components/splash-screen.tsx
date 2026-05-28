@@ -1,13 +1,15 @@
 "use client";
 
 import { splashConfig } from "@/lib/config";
+import {
+  persistSplashSeenInSession,
+  resolveSplashVisibility,
+} from "@/lib/splash-gate";
 import { playSplashDiveSound } from "@/lib/splash-sound";
-import Image from "next/image";
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 
 const SPLASH_BG = "/backgrounds/splash-bg.png";
 const DIVER_IMG = "/diver/diver-frame-1.png";
-const STORAGE_KEY = "diver-splash-seen";
 const TOTAL_DURATION = 5200;
 const FADE_MS = 400;
 const PARALLAX_INTENSITY = 20;
@@ -18,15 +20,6 @@ const PARALLAX_MIN_WIDTH = 850;
 type SplashScreenProps = {
   showOncePerSession?: boolean;
 };
-
-function shouldSkipSplash(showOncePerSession: boolean): boolean {
-  if (!showOncePerSession) return false;
-  try {
-    return sessionStorage.getItem(STORAGE_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
 
 function easeInOutQuad(t: number): number {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -77,9 +70,8 @@ export function SplashScreen({
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const skip =
-      showOncePerSession && shouldSkipSplash(showOncePerSession);
-    queueMicrotask(() => setEnabled(!skip));
+    const show = resolveSplashVisibility({ showOncePerSession });
+    queueMicrotask(() => setEnabled(show));
   }, [showOncePerSession]);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -122,11 +114,7 @@ export function SplashScreen({
       document.documentElement.style.overflow = "";
 
       if (showOncePerSession) {
-        try {
-          sessionStorage.setItem(STORAGE_KEY, "1");
-        } catch {
-          /* ignore */
-        }
+        persistSplashSeenInSession();
       }
 
       setVisible(false);
@@ -453,16 +441,6 @@ export function SplashScreen({
       onMouseLeave={handleMouseLeave}
     >
       <canvas ref={canvasRef} className="block h-full w-full" />
-      <div className="pointer-events-none absolute top-0 left-0 z-10 p-5 sm:p-8">
-        <Image
-          src="/logos/logo-white.png"
-          alt=""
-          width={140}
-          height={40}
-          className="h-8 w-auto sm:h-10"
-          priority
-        />
-      </div>
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center pb-12 sm:pb-16">
         <span
           ref={percentRef}

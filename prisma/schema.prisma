@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum TripCategory {
+  NACIONAL
+  INTERNACIONAL
+}
+
+enum TripStatus {
+  RASCUNHO
+  PUBLICADO
+  ESGOTADO
+  ENCERRADO
+}
+
+enum TripExperienceType {
+  OPEN_WATER_PLUS
+  ADVANCED_PLUS
+  LIVEABOARD
+  RESORT
+  EXPEDICAO
+  FOTOGRAFIA
+  VIDA_MARINHA
+}
+
+model Trip {
+  id        String       @id @default(cuid())
+  title     String
+  slug      String       @unique
+  category  TripCategory
+  experienceTypes TripExperienceType[] @default([])
+  location  String       @default("")
+  heroImageUrl String?
+  shortDescription String
+  pageSections Json     @default("[]")
+  status    TripStatus   @default(RASCUNHO)
+
+  pageSubtitle String?
+  introText    String?
+  ctaLabel     String?
+  ctaUrl       String?
+
+  startDate DateTime?
+  endDate   DateTime?
+  dateText  String?
+  price     String?
+  priceText String?
+  commercialNote String?
+
+  experienceTitle     String?
+  experienceText      String?
+  experienceImageUrl  String?
+  whyDiveTitle        String?
+  whyDiveText         String?
+  highlights          Json     @default("[]")
+
+  packageTitle       String?
+  packageDescription String?
+  includedItems      Json     @default("[]")
+  notIncludedItems   Json     @default("[]")
+  paymentCondition   String?
+
+  hasTransportSection  Boolean @default(false)
+  transportTitle       String?
+  transportDescription String?
+  transportNotes       String?
+
+  hasAccommodationSection Boolean @default(false)
+  accommodationName       String?
+  accommodationImageUrl   String?
+  accommodationDescription  String?
+  accommodationItems        Json    @default("[]")
+
+  hasDiveInfoSection    Boolean @default(false)
+  diveInfoTitle         String?
+  diveInfoDescription   String?
+  waterTemperature      String?
+  visibility            String?
+  depth                 String?
+  diveSites             Json    @default("[]")
+  underwaterAttractions Json    @default("[]")
+  partnerOperator       String?
+
+  metaTitle       String?
+  metaDescription String?
+  isFeatured      Boolean @default(false)
+  sortOrder       Int     @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+  updatedById String?
+
+  @@index([status, isFeatured, sortOrder])
+  @@index([slug])
+}

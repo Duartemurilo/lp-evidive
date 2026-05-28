@@ -7,6 +7,8 @@ import {
   type LucideIcon,
   Waves,
 } from "lucide-react";
+import { SectionEyebrow } from "@/components/section-eyebrow";
+import { SectionTitle } from "@/components/section-title";
 import { WaveDivider } from "@/components/wave-divider";
 import { motion, useInView } from "motion/react";
 import { useRef, type ReactNode } from "react";
@@ -36,15 +38,15 @@ export const journeyPathCards: JourneyPathCard[] = [
   {
     title: "Formação",
     subtitle: "Aprenda, certifique-se e evolua.",
-    sectionId: "universo",
-    href: "#universo",
+    sectionId: "explore-mergulhadores",
+    href: "#explore-mergulhadores",
     icon: GraduationCap,
   },
   {
     title: "Já sou mergulhador",
     subtitle: "Continue sua jornada no oceano.",
-    sectionId: "comunidade",
-    href: "#comunidade",
+    sectionId: "aperfeicoe-sua-tecnica",
+    href: "#aperfeicoe-sua-tecnica",
     icon: Anchor,
   },
 ] as const;
@@ -70,8 +72,8 @@ function JourneyPathCard({
           ? "border-primary/35"
           : "border-white/60"
       }`}
-      initial={{ opacity: 0, y: 22 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
+      initial={false}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
       transition={{
         duration: 0.55,
         delay: inView ? 0.08 + index * 0.07 : 0,
@@ -134,6 +136,8 @@ export function HeroJourneyPaths(): ReactNode {
     <section
       ref={sectionRef}
       id="escolha-experiencia"
+      data-depth-label="Sua jornada"
+      data-depth="-10m"
       aria-labelledby="escolha-experiencia-heading"
       className="relative z-10 scroll-mt-24 px-6 pb-16 pt-4 md:pb-20 md:pt-6 lg:pb-24"
     >
@@ -144,9 +148,7 @@ export function HeroJourneyPaths(): ReactNode {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.55, ease: easeOut }}
         >
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-white/70 sm:text-xs">
-            Sua jornada
-          </p>
+          <SectionEyebrow className="text-white/70">Sua jornada</SectionEyebrow>
           <motion.div
             initial={{ opacity: 0, scaleX: 0.6 }}
             animate={inView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.6 }}
@@ -155,12 +157,15 @@ export function HeroJourneyPaths(): ReactNode {
           >
             <WaveDivider className="text-primary" />
           </motion.div>
-          <h2
+          <SectionTitle
             id="escolha-experiencia-heading"
-            className="font-display text-2xl font-bold tracking-tight text-white sm:text-3xl"
-          >
-            Por onde você quer começar?
-          </h2>
+            sans="Por onde você quer "
+            display="começar?"
+            displayInline
+            size="large"
+            sansClassName="text-white"
+            displayClassName="text-primary"
+          />
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/72 sm:text-base">
             Escolha o caminho que faz mais sentido para o seu momento no mergulho.
           </p>

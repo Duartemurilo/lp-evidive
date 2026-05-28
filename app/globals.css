@@ -207,7 +207,8 @@ body {
     padding-bottom: 0.5rem;
   }
 
-  .community-member-card {
+  .community-member-card,
+  .viagens-gallery-card {
     scroll-snap-align: start;
   }
 }
@@ -254,5 +255,163 @@ body {
 
 .shore-destino-section {
   background-color: var(--shore-sand);
+}
+
+/* Subpáginas imersivas — moldura fixa (padrão copiado do template saas) */
+.freedive-page,
+.divemaster-page,
+.viagens-page,
+.cursos-page {
+  --freedive-frame: var(--background);
+}
+
+.divemaster-page,
+.viagens-page,
+.cursos-page {
+  --divemaster-frame: var(--freedive-frame);
+}
+
+.viagens-page,
+.cursos-page {
+  --viagens-frame: var(--freedive-frame);
+}
+
+.cursos-page {
+  --cursos-frame: var(--freedive-frame);
+}
+
+.freedive-site-frame,
+.divemaster-site-frame,
+.viagens-site-frame,
+.cursos-site-frame {
+  display: block;
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background-color: var(--freedive-frame);
+}
+
+.divemaster-site-frame {
+  background-color: var(--divemaster-frame);
+}
+
+.viagens-site-frame {
+  background-color: var(--viagens-frame);
+}
+
+.cursos-site-frame {
+  background-color: var(--cursos-frame);
+}
+
+.freedive-site-frame--top,
+.divemaster-site-frame--top,
+.viagens-site-frame--top,
+.cursos-site-frame--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.freedive-site-frame--bottom,
+.divemaster-site-frame--bottom,
+.viagens-site-frame--bottom,
+.cursos-site-frame--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.freedive-site-frame--left,
+.divemaster-site-frame--left,
+.viagens-site-frame--left,
+.cursos-site-frame--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+}
+
+.freedive-site-frame--right,
+.divemaster-site-frame--right,
+.viagens-site-frame--right,
+.cursos-site-frame--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+}
+
+.freedive-site-corner,
+.divemaster-site-corner,
+.viagens-site-corner,
+.cursos-site-corner {
+  display: block;
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  color: var(--freedive-frame);
+}
+
+.divemaster-site-corner {
+  color: var(--divemaster-frame);
+}
+
+.viagens-site-corner {
+  color: var(--viagens-frame);
+}
+
+.cursos-site-corner {
+  color: var(--cursos-frame);
+}
+
+.freedive-site-corner--top-left,
+.divemaster-site-corner--top-left,
+.viagens-site-corner--top-left,
+.cursos-site-corner--top-left {
+  transform: rotate(90deg);
+  top: 10px;
+  left: 10px;
+}
+
+.freedive-site-corner--top-right,
+.divemaster-site-corner--top-right,
+.viagens-site-corner--top-right,
+.cursos-site-corner--top-right {
+  top: 10px;
+  right: 10px;
+  transform: rotate(180deg);
+}
+
+.freedive-site-corner--bottom-left,
+.divemaster-site-corner--bottom-left,
+.viagens-site-corner--bottom-left,
+.cursos-site-corner--bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(0deg);
+}
+
+.freedive-site-corner--bottom-right,
+.divemaster-site-corner--bottom-right,
+.viagens-site-corner--bottom-right,
+.cursos-site-corner--bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(270deg);
+}
+
+@media (max-width: 849px) {
+  .freedive-site-frame,
+  .freedive-site-corner,
+  .divemaster-site-frame,
+  .divemaster-site-corner,
+  .viagens-site-frame,
+  .viagens-site-corner,
+  .cursos-site-frame,
+  .cursos-site-corner {
+    display: none;
+  }
 }
 

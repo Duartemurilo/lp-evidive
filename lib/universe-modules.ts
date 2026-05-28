@@ -1,3 +1,4 @@
+import { emotionDiveConfig } from "@/lib/config";
 import {
   Anchor,
   Globe,
@@ -33,6 +34,10 @@ export const JOURNEY_TIERS: {
   { id: "expansao", label: "Expansão" },
 ];
 
+export function isExternalUniverseLink(href: string): boolean {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export const UNIVERSE_MODULES: UniverseModule[] = [
   {
     id: "primeiro-mergulho",
@@ -48,15 +53,15 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     tier: "entrada",
   },
   {
-    id: "cursos",
-    title: "Cursos",
+    id: "formacao",
+    title: "Formação",
     shortDescription:
       "Formação completa para evoluir com conhecimento e confiança.",
-    detailTitle: "CURSOS",
+    detailTitle: "FORMAÇÃO",
     detailBody:
       "Trilhas de formação pensadas para cada nível, com instrutores experientes e certificação reconhecida no mercado.",
-    ctaLabel: "Explorar Cursos",
-    href: "#universo",
+    ctaLabel: "Explorar Formação",
+    href: "#formacao",
     icon: GraduationCap,
     tier: "entrada",
   },
@@ -68,7 +73,7 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     detailBody:
       "Programas focados em respiração, técnica e performance para mergulhar com mais autonomia e presença.",
     ctaLabel: "Explorar Freedive",
-    href: "#comunidade",
+    href: "/freedive",
     icon: Anchor,
     tier: "exploracao",
   },
@@ -92,7 +97,7 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     detailBody:
       "Roteiros imersivos que unem mergulho, cultura local e memórias inesquecíveis em destinos selecionados.",
     ctaLabel: "Explorar Viagens",
-    href: "#destino",
+    href: "/viagens",
     icon: Globe,
     tier: "exploracao",
   },
@@ -104,7 +109,7 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     detailBody:
       "Mentorias, oportunidades e formação avançada para quem deseja viver do mergulho com propósito.",
     ctaLabel: "Explorar Carreira",
-    href: "#universo",
+    href: "/divemaster",
     icon: Users,
     tier: "expansao",
   },
@@ -116,7 +121,7 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     detailBody:
       "Curadoria de equipamentos e acessórios com orientação especializada para cada etapa da sua evolução.",
     ctaLabel: "Explorar Loja",
-    href: "#chamada-final",
+    href: emotionDiveConfig.storeWhatsAppUrl,
     icon: ShoppingBag,
     tier: "expansao",
   },
@@ -128,7 +133,7 @@ export const UNIVERSE_MODULES: UniverseModule[] = [
     detailBody:
       "Iniciativas de conservação marinha e educação ambiental para mergulhar com responsabilidade.",
     ctaLabel: "Explorar Impacto",
-    href: "#fundo",
+    href: "#destino",
     icon: Leaf,
     tier: "expansao",
   },
