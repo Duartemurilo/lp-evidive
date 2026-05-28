@@ -1,3 +1,4 @@
+import { adminClerkAppearance } from "@/lib/admin/clerk-auth-appearance";
 import { SignIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
@@ -20,8 +21,8 @@ export default async function AdminLoginPage(): Promise<ReactNode> {
       <SignIn
         path="/admin/login"
         routing="path"
-        signUpUrl="/sign-up"
         forceRedirectUrl="/admin/viagens"
+        appearance={adminClerkAppearance}
       />
     </div>
   );

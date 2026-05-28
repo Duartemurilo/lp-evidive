@@ -5,6 +5,9 @@ import {
   listPublishedTrips,
   toPublicTrip,
 } from "@/lib/trips/trip-service";
+
+/** Sempre consulta o banco — viagem removida ou despublicada retorna 404 imediatamente. */
+export const dynamic = "force-dynamic";
 import { tripRecordToViagem } from "@/lib/trips/trip-to-viagem";
 import { resolveViagemHeroImageUrl, viagensConfig } from "@/lib/viagens-config";
 import type { Metadata } from "next";
@@ -14,11 +17,6 @@ import type { ReactNode } from "react";
 type ViagemDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
-
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const trips = await listPublishedTrips();
-  return trips.map((trip) => ({ slug: trip.slug }));
-}
 
 export async function generateMetadata({
   params,

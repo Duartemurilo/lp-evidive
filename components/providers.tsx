@@ -7,7 +7,7 @@ import { ReducedMotionProvider } from "@/lib/motion";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-const AUTH_ROUTE_PREFIXES = ["/admin", "/sign-in", "/sign-up"];
+const AUTH_ROUTE_PREFIXES = ["/admin", "/sign-in"];
 
 function isAuthRoute(pathname: string | null): boolean {
   if (!pathname) return false;

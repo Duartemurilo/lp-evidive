@@ -1,6 +1,8 @@
 import { Providers } from "@/components/providers";
 import { SiteChrome } from "@/components/site-chrome";
 import { SkipToContent } from "@/components/skip-to-content";
+import { adminClerkAppearance } from "@/lib/admin/clerk-auth-appearance";
+import { ptBR } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
 import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
@@ -62,10 +64,10 @@ export default function RootLayout({
         className={`${garet.variable} ${todayShop.variable} relative min-h-screen bg-background font-sans text-foreground antialiased`}
       >
         <ClerkProvider
+          localization={ptBR}
           signInUrl="/admin/login"
-          signUpUrl="/sign-up"
           signInFallbackRedirectUrl="/admin/viagens"
-          signUpFallbackRedirectUrl="/admin/viagens"
+          appearance={adminClerkAppearance}
         >
           <Providers>
             <SkipToContent />

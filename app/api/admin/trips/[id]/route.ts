@@ -1,5 +1,6 @@
 import { requireAuthUserId } from "@/lib/admin/require-auth";
 import { handleApiError, jsonOk } from "@/lib/api/response";
+import { revalidatePublicTripCache } from "@/lib/trips/revalidate-public-trips";
 import {
   deleteTrip,
   getAdminTripById,
@@ -31,8 +32,10 @@ export async function PATCH(
   try {
     const userId = await requireAuthUserId();
     const { id } = await context.params;
+    const existing = await getAdminTripById(id);
     const body: unknown = await request.json();
     const trip = await updateTrip(id, body, userId);
+    revalidatePublicTripCache(existing.slug, trip.slug);
     return jsonOk(trip);
   } catch (error) {
     return handleApiError(error);
@@ -46,7 +49,9 @@ export async function DELETE(
   try {
     await requireAuthUserId();
     const { id } = await context.params;
+    const existing = await getAdminTripById(id);
     await deleteTrip(id);
+    revalidatePublicTripCache(existing.slug);
     return jsonOk({ deleted: true });
   } catch (error) {
     return handleApiError(error);

@@ -21,6 +21,16 @@ const nextConfig: NextConfig = {
         destination: "/cursos/padi-divemaster",
         permanent: true,
       },
+      {
+        source: "/sign-up",
+        destination: "/admin/login",
+        permanent: false,
+      },
+      {
+        source: "/sign-up/:path*",
+        destination: "/admin/login",
+        permanent: false,
+      },
     ];
   },
   // Disable source maps in production to prevent easy code inspection
