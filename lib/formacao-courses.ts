@@ -9,51 +9,50 @@ export type FormacaoCourse = {
   featured?: boolean;
 };
 
-export const formacaoPageHref =
-  "https://www.evidive.com.br/quero-comecar-a-mergulhar/";
+export const formacaoPageHref = "/cursos#cursos-category-iniciante";
 
 export const formacaoCourses: FormacaoCourse[] = [
   {
-    id: "certificacao-rapida",
-    duration: "1 fim de semana",
-    title: "Certificação Rápida",
+    id: "emotion-dive",
+    duration: "Primeira experiência",
+    title: "Emotion Dive",
     description:
-      "Para quem quer iniciar sua formação com uma proposta mais leve, prática e possível em um único fim de semana intensivo.",
+      "Viva seu primeiro mergulho com cilindro em Cotia, com briefing prático, adaptação na piscina e experiência guiada no lago da Evidive.",
     features: [
-      "Menor carga horária inicial",
-      "Rápido e objetivo para ganhar confiança",
-      "Excelente base para futuros upgrades",
+      "Ideal para quem quer testar o mergulho antes da certificação",
+      "Experiência completa com instrutor do início ao fim",
+      "A apenas 30 minutos de Sao Paulo",
     ],
-    href: "https://www.evidive.com.br/quero-comecar-a-mergulhar/",
-    image: "/assets/hero/DCIM_101GOPRO_GOPR5892.JPG.png",
+    href: "/cursos/emotion-dive",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
     featured: true,
   },
   {
-    id: "certificacao-completa",
-    duration: "2 finais de semana + saída Paraty",
-    title: "Certificação Completa",
+    id: "padi-scuba-diver",
+    duration: "1 final de semana",
+    title: "PADI Scuba Diver",
     description:
-      "A formação mais robusta. Para quem deseja uma base impecável, independência total e possibilidades ilimitadas no oceano.",
+      "Conquiste sua certificacao PADI Scuba Diver com teoria, piscina e aguas abertas no EviLago para mergulhar com mais seguranca.",
     features: [
-      "Formação completa com certificação livre",
-      "Alto nível técnico e autonomia",
-      "Acesso direto às especialidades globais",
+      "Certificacao internacional para mergulhos supervisionados",
+      "Treino completo no Concept Dive Center",
+      "Proximo passo para evoluir ao Open Water Diver",
     ],
-    href: "https://www.evidive.com.br/quero-comecar-a-mergulhar/curso-basico-de-mergulho-com-cilindro/",
-    image: "/assets/hero/DCIM_100GOPRO_GOPR3378.JPG.png",
+    href: "/cursos/padi-scuba-diver",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
   },
   {
-    id: "especialidades",
-    duration: "Sob medida",
-    title: "Especialidades PADI",
+    id: "curso-basico-de-mergulho-com-cilindro",
+    duration: "2 finais de semana",
+    title: "Curso Básico de Mergulho com Cilindro",
     description:
-      "Nitrox, flutuabilidade, mergulho profundo e muito mais. Evolua com trilhas pensadas para cada objetivo no oceano.",
+      "Faça a formação Open Water Diver com aulas teóricas, piscina, EviLago e saída no mar para construir base técnica completa.",
     features: [
-      "Certificações reconhecidas globalmente",
-      "Instrutores experientes e acompanhamento próximo",
-      "Integração com saídas e viagens Evidive",
+      "Certificação internacional para mergulhar até 18m",
+      "Treinamento completo no Concept Dive Center",
+      "Saída em Paraty para concluir sua formação no mar",
     ],
-    href: "https://www.evidive.com.br/ja-sou-mergulhador/",
-    image: "/assets/hero/POSTS_EVIDIVE (7).png",
+    href: "/cursos/curso-basico-de-mergulho-com-cilindro",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
   },
 ];

@@ -8,11 +8,14 @@ import {
   sectionWaveWrapOnLight,
 } from "@/lib/typography";
 import { WaveDivider } from "@/components/wave-divider";
-import { formacaoCourses, type FormacaoCourse } from "@/lib/formacao-courses";
+import {
+  formacaoCourses,
+  formacaoPageHref,
+  type FormacaoCourse,
+} from "@/lib/formacao-courses";
 import {
   especializacoesCourses,
   especializacoesPageHref,
-  especializacoesSectionHref,
   especializacoesSectionId,
 } from "@/lib/especializacoes-courses";
 import { ArrowRight, Star } from "lucide-react";
@@ -113,8 +116,6 @@ function CourseCard({
 
         <Link
           href={course.href}
-          target="_blank"
-          rel="noopener noreferrer"
           className="mt-5 inline-flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:text-primary md:text-xs"
         >
           {ctaLabel}
@@ -413,8 +414,8 @@ export function Formacao(): ReactNode {
           headingId="formacao-heading"
           titleSans="Onde a exploração"
           titleDisplay="se torna realidade."
-          pageHref={especializacoesSectionHref}
-          pageAriaLabel="Ir para Aperfeiçoe sua técnica"
+          pageHref={formacaoPageHref}
+          pageAriaLabel="Ir para cursos para iniciantes"
           openPageInNewTab={false}
           courses={formacaoCourses}
           footerNote="Formação completa com certificação reconhecida no mercado."
@@ -436,6 +437,7 @@ export function Formacao(): ReactNode {
           titleDisplay="sua técnica."
           pageHref={especializacoesPageHref}
           pageAriaLabel="Explorar especializações Evidive"
+          openPageInNewTab={false}
           courses={especializacoesCourses}
           ctaLabel="Ver curso"
           glued="bottom"

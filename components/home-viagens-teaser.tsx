@@ -91,11 +91,11 @@ function TeaserTripsCarousel({ trips }: { trips: readonly Viagem[] }): ReactNode
     <div className="relative -mx-6 md:hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#f4f2ee] to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-[#f4f2ee] to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent"
       />
 
       <div
@@ -174,7 +174,7 @@ export function HomeViagensTeaser(): ReactNode {
       data-depth-label="Viagens"
       data-depth="-78m"
       aria-labelledby="home-viagens-teaser-heading"
-      className="border-t border-border/35 bg-[#f4f2ee] px-6 py-20 text-foreground md:py-28 lg:py-32"
+      className="border-t border-border/35 bg-background px-6 py-20 text-foreground md:py-28 lg:py-32"
     >
       <div className="mx-auto max-w-6xl">
         <motion.header

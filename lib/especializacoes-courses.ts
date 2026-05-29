@@ -5,38 +5,50 @@ export const especializacoesSectionId = "aperfeicoe-sua-tecnica";
 export const especializacoesSectionHref = `#${especializacoesSectionId}`;
 
 export const especializacoesPageHref =
-  "https://www.evidive.com.br/ja-sou-mergulhador/";
+  "/cursos#cursos-category-carreira";
 
 export const especializacoesCourses: FormacaoCourse[] = [
   {
-    id: "curso-avancado",
-    duration: "O PRÓXIMO NÍVEL",
-    title: "Curso Avançado de Mergulho",
+    id: "resgate",
+    duration: "Especializacao avancada",
+    title: "Resgate",
     description:
-      "Aprofunde sua experiência com novos ambientes, especialidades práticas e mais repertório técnico.",
-    features: [],
-    href: "https://www.evidive.com.br/ja-sou-mergulhador/",
-    image: "/assets/hero/DCIM_101GOPRO_GOPR5836.JPG.png",
+      "Aprenda prevencao, resposta a emergencias e lideranca na agua com o curso PADI Rescue Diver, um divisor de aguas na sua evolucao.",
+    features: [
+      "Formacao focada em seguranca e resolucao de problemas",
+      "Tecnicas praticas para apoiar seu dupla em situacoes reais",
+      "Curso desafiador e recompensador para quem quer evoluir",
+    ],
+    href: "/cursos/resgate",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
     featured: true,
   },
   {
-    id: "performance-flutuabilidade",
-    duration: "FUNDAÇÃO TÉCNICA",
-    title: "Performance em Flutuabilidade",
+    id: "padi-divemaster",
+    duration: "Carreira profissional",
+    title: "PADI Divemaster",
     description:
-      "A especialização que melhora tudo o que vem depois. Mais controle, foco e conforto absoluto no mergulho.",
-    features: [],
-    href: "https://www.evidive.com.br/ja-sou-mergulhador/",
-    image: "/assets/hero/DCIM_100GOPRO_GOPR3378.JPG.png",
+      "Entre no nivel profissional do mergulho e desenvolva habilidades de lideranca para supervisionar atividades e apoiar instrutores.",
+    features: [
+      "Primeiro passo oficial para atuar profissionalmente",
+      "Treinamento pratico em organizacao, conducao e suporte",
+      "Base completa para seguir rumo a carreira de instrutor",
+    ],
+    href: "/cursos/padi-divemaster",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
   },
   {
-    id: "ar-enriquecido-nitrox",
-    duration: "ESPECIALIDADE POPULAR",
-    title: "Ar Enriquecido Nitrox",
+    id: "nitrox",
+    duration: "Especialidade em 1 dia",
+    title: "NITROX",
     description:
-      "Aumente seu tempo de fundo e reduza o cansaço. A especialidade indispensável para quem quer mergulhar mais.",
-    features: [],
-    href: "https://www.evidive.com.br/ja-sou-mergulhador/",
-    image: "/assets/hero/POSTS_EVIDIVE (6).png",
+      "Aprenda a mergulhar com ar enriquecido para ampliar seu tempo de fundo e ganhar mais eficiência em mergulhos recreativos.",
+    features: [
+      "Curso mais popular de especialidade da PADI",
+      "Planejamento com nitrox e análise de cilindros",
+      "Mais autonomia para explorar melhor cada mergulho",
+    ],
+    href: "/cursos/nitrox",
+    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
   },
 ];
