@@ -29,7 +29,8 @@ export const freediveConfig = {
       text: "Quero fazer o curso de freediver",
       href: buildFreediveWhatsAppUrl(freediveWhatsAppMessages.hero),
     },
-    backgroundImage: "/backgrounds/bg-freedive.png",
+    backgroundImage:
+      "/cursos-evi/Cursos/Flutuabilidade/curso_flutuabilidade_capa.jpg",
   },
   presence: {
     titleLine1: "No Freedive, ",
@@ -112,7 +113,8 @@ export const freediveConfig = {
           text: "Quero começar no Freedive",
           href: buildFreediveWhatsAppUrl(freediveWhatsAppMessages.nivel1),
         },
-        image: "/backgrounds/bg-freedive.png",
+        image:
+          "/cursos-evi/Cursos/Flutuabilidade/curso_flutuabilidade_capa.jpg",
       },
       {
         id: "nivel-2",
@@ -125,7 +127,8 @@ export const freediveConfig = {
           text: "Quero evoluir no Freedive",
           href: buildFreediveWhatsAppUrl(freediveWhatsAppMessages.nivel2),
         },
-        image: "/assets/hero/DCIM_107GOPRO_GOPR3018.JPG.png",
+        image:
+          "/cursos-evi/Cursos/Flutuabilidade/curso_flutuabilidade_beneficios.png",
       },
     ],
   },

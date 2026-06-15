@@ -24,7 +24,7 @@ export const formacaoCourses: FormacaoCourse[] = [
       "A apenas 30 minutos de Sao Paulo",
     ],
     href: "/cursos/emotion-dive",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/Emotion Dive/curso_emotion_dive_capa.png",
     featured: true,
   },
   {
@@ -39,7 +39,7 @@ export const formacaoCourses: FormacaoCourse[] = [
       "Proximo passo para evoluir ao Open Water Diver",
     ],
     href: "/cursos/padi-scuba-diver",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/Scuba Diver/curso_scuba_tudo_incluso.png",
   },
   {
     id: "curso-basico-de-mergulho-com-cilindro",
@@ -53,6 +53,6 @@ export const formacaoCourses: FormacaoCourse[] = [
       "Saída em Paraty para concluir sua formação no mar",
     ],
     href: "/cursos/curso-basico-de-mergulho-com-cilindro",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/Curso Básico de Mergulho/curso_basico_capa.jpeg",
   },
 ];

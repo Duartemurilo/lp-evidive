@@ -5,6 +5,8 @@ import { CursoDetailContent } from "@/components/cursos/detail/curso-detail-cont
 import { CursoDetailHero } from "@/components/cursos/detail/curso-detail-hero";
 import { CursoDetailScrollToTop } from "@/components/cursos/detail/curso-detail-scroll-to-top";
 import { CursoPageAccentProvider } from "@/lib/curso-page-accent-context";
+import { cursosConfig } from "@/lib/cursos-config";
+import { getCursoCapaImageOrFallback } from "@/lib/cursos-capa-images";
 import type { CursoPageContent, CursoPageStub } from "@/lib/types/curso-page";
 import { isCursoPageWithBlocks } from "@/lib/types/curso-page";
 import { useRef, type ReactNode } from "react";
@@ -16,6 +18,10 @@ type CursoDetailShellProps = {
 export function CursoDetailShell({ content }: CursoDetailShellProps): ReactNode {
   const heroSentinelRef = useRef<HTMLDivElement>(null);
   const hasFullPage = isCursoPageWithBlocks(content);
+  const backgroundImage = getCursoCapaImageOrFallback(
+    content.slug,
+    cursosConfig.hero.backgroundImage,
+  );
 
   return (
     <>
@@ -31,11 +37,13 @@ export function CursoDetailShell({ content }: CursoDetailShellProps): ReactNode 
             title={content.title}
             categoryLabel={content.categoryLabel}
             hero={content.hero}
+            backgroundImage={backgroundImage}
           />
         ) : (
           <CursoDetailHero
             title={content.title}
             categoryLabel={content.categoryLabel}
+            backgroundImage={backgroundImage}
             hero={{
               lead: content.title,
               leadHighlight: "",

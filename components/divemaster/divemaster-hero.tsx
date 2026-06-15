@@ -99,7 +99,7 @@ export function DivemasterHero(): ReactNode {
       <motion.div
         className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat min-[850px]:inset-2.5 min-[850px]:scale-105 min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
         style={{
-          backgroundImage: `url(${hero.backgroundImage})`,
+          backgroundImage: `url("${hero.backgroundImage.replace(/"/g, '\\"')}")`,
           ...(prefersReducedMotion ? {} : { x, y }),
         }}
         aria-hidden="true"

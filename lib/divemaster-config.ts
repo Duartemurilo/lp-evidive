@@ -32,7 +32,8 @@ export const divemasterConfig = {
       text: "Quero virar Divemaster",
       href: buildDivemasterWhatsAppUrl(divemasterWhatsAppMessages.heroPrimary),
     },
-    backgroundImage: "/backgrounds/bg-divemaster.png",
+    backgroundImage:
+      "/cursos-evi/Cursos/PADI Divemaster/curso_padi_divemaster_capa.jpeg",
   },
   presence: {
     titleLine1: "Chega um momento",
@@ -234,7 +235,8 @@ export const divemasterConfig = {
           text: "Quero iniciar a Fase 1",
           href: buildDivemasterWhatsAppUrl(divemasterWhatsAppMessages.fase1),
         },
-        image: "/backgrounds/bg-divemaster.png",
+        image:
+          "/cursos-evi/Cursos/PADI Divemaster/curso_padi_divemaster_papel.png",
       },
       {
         id: "fase-2",
@@ -247,7 +249,8 @@ export const divemasterConfig = {
           text: "Quero avançar para a Fase 2",
           href: buildDivemasterWhatsAppUrl(divemasterWhatsAppMessages.fase2),
         },
-        image: "/assets/hero/G0025436.JPG.png",
+        image:
+          "/cursos-evi/Cursos/PADI Divemaster/curso_padi_divemaster_beneficios.jpeg",
       },
     ],
   },

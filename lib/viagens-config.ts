@@ -14,6 +14,8 @@ export function buildViagensWhatsAppUrl(
   return buildWhatsAppUrl(message);
 }
 
+import { VIAGENS_FORMATO_IMAGES, VIAGENS_HERO_DEFAULT_IMAGE, VIAGENS_HERO_SLIDESHOW } from "@/lib/viagens-hero-images";
+
 export const viagensConfig = {
   detailHero: {
     ctaLabel: "Saiba mais: incluído, preços e datas",
@@ -30,7 +32,8 @@ export const viagensConfig = {
       text: "Quero viajar com a Evidive",
       href: buildViagensWhatsAppUrl(viagensWhatsAppMessages.hero),
     },
-    backgroundImage: "/backgrounds/hero-viagens-destino-mergulho-evidive.png",
+    backgroundImages: VIAGENS_HERO_SLIDESHOW,
+    backgroundImage: VIAGENS_HERO_DEFAULT_IMAGE,
   },
   universe: {
     id: "viagens-universo",
@@ -75,40 +78,40 @@ export const viagensConfig = {
         title: "Viagens de grupo",
         description:
           "Grupos curados, pessoas que compartilham a mesma paixão.",
-        image: "/assets/hero/POSTS_EVIDIVE (7).png",
+        image: VIAGENS_FORMATO_IMAGES.viagensDeGrupo,
       },
       {
         number: "02",
         title: "Expedições",
         description:
           "Itinerários exclusivos em destinos de alta biodiversidade.",
-        image: "/assets/hero/G0025436.JPG.png",
+        image: VIAGENS_FORMATO_IMAGES.expedicoes,
       },
       {
         number: "03",
         title: "Liveaboards",
         description: "Embarque, mergulhe, durma, repita. A experiência total.",
-        image: "/backgrounds/dive-section-deep-underwater-bg.png",
+        image: VIAGENS_FORMATO_IMAGES.liveaboards,
       },
       {
         number: "04",
         title: "Fotografia subaquática",
         description:
           "Destinos ideais para quem quer registrar o fundo do mar.",
-        image: "/assets/hero/DCIM_101GOPRO_GOPR5892.JPG.png",
+        image: VIAGENS_FORMATO_IMAGES.fotografiaSubaquatica,
       },
       {
         number: "05",
         title: "Evolução técnica",
         description:
           "Viagens que combinam destino com formação e aprofundamento.",
-        image: "/assets/hero/DCIM_100GOPRO_GOPR3378.JPG.png",
+        image: VIAGENS_FORMATO_IMAGES.evolucaoTecnica,
       },
       {
         number: "06",
         title: "Experiências premium",
         description: "Operação completa, estrutura diferenciada, conforto.",
-        image: "/assets/hero/POSTS_EVIDIVE (8).png",
+        image: VIAGENS_FORMATO_IMAGES.experienciasPremium,
       },
     ],
   },

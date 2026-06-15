@@ -13,6 +13,7 @@ export const metadata: Metadata = createMetadata({
   title: "Viagens",
   description: viagensConfig.hero.subheadline,
   path: "/viagens",
+  image: viagensConfig.hero.backgroundImage,
 });
 
 export default function ViagensPage(): ReactNode {

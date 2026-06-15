@@ -8,6 +8,7 @@ import {
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { WaveDivider } from "@/components/wave-divider";
 import { cursosConfig } from "@/lib/cursos-config";
+import { toCssBackgroundImageUrl } from "@/lib/cursos-capa-images";
 import { useReducedMotion } from "@/lib/motion";
 import {
   heroContentWidth,
@@ -30,12 +31,16 @@ import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import Link from "next/link";
-import { useRef, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 
 const PARALLAX_INTENSITY = 20;
 const PARALLAX_MIN_WIDTH = 850;
+const SLIDESHOW_INTERVAL_MS = 5500;
+const SLIDESHOW_CROSSFADE_S = 1.2;
+const slideshowEase = [0.4, 0, 0.2, 1] as const;
 
 const { hero } = cursosConfig;
+const heroBackgroundImages = hero.backgroundImages;
 
 const eyebrowText = hero.badge;
 const headlineLine1 = hero.headline.line1;
@@ -46,6 +51,30 @@ const eyebrowCharCount = eyebrowText.length;
 const headlineCharCount = headlineLine1.length + headlineLine2.length;
 const subtitleCharCount = subtitleText.length;
 
+function CursosHeroBackground({
+  images,
+  activeIndex,
+}: {
+  images: readonly string[];
+  activeIndex: number;
+}): ReactNode {
+  return (
+    <>
+      {images.map((src, index) => (
+        <motion.div
+          key={src}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
+          style={{ backgroundImage: toCssBackgroundImageUrl(src) }}
+          initial={false}
+          animate={{ opacity: index === activeIndex ? 1 : 0 }}
+          transition={{ duration: SLIDESHOW_CROSSFADE_S, ease: slideshowEase }}
+          aria-hidden="true"
+        />
+      ))}
+    </>
+  );
+}
+
 export function CursosHero(): ReactNode {
   const sectionRef = useRef<HTMLElement>(null);
   const hydrated = useHydrated();
@@ -54,6 +83,25 @@ export function CursosHero(): ReactNode {
   const prefersReducedMotion = useReducedMotion();
   const instantReveal = prefersReducedMotion || skipRevealAnimation;
   const showMotion = hydrated && (animReady || skipRevealAnimation);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const slideCount = heroBackgroundImages.length;
+
+  useEffect(() => {
+    heroBackgroundImages.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || slideCount <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % slideCount);
+    }, SLIDESHOW_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [prefersReducedMotion, slideCount]);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -97,13 +145,11 @@ export function CursosHero(): ReactNode {
       onMouseLeave={handleMouseLeave}
     >
       <motion.div
-        className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat min-[850px]:inset-2.5 min-[850px]:scale-105 min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
-        style={{
-          backgroundImage: `url(${hero.backgroundImage})`,
-          ...(prefersReducedMotion ? {} : { x, y }),
-        }}
+        className="absolute inset-0 -z-10 overflow-hidden min-[850px]:inset-2.5 min-[850px]:scale-105 min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
+        style={prefersReducedMotion ? {} : { x, y }}
         aria-hidden="true"
       >
+        <CursosHeroBackground images={heroBackgroundImages} activeIndex={activeSlide} />
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-foreground/55 via-foreground/30 to-foreground/10 min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
           aria-hidden="true"

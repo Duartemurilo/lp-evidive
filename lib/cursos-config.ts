@@ -1,3 +1,5 @@
+import { CURSO_CAPA_HERO_SLIDESHOW } from "@/lib/cursos-capa-images";
+
 export const cursosConfig = {
   hero: {
     badge: "Gateway Experience · Evidive",
@@ -11,7 +13,8 @@ export const cursosConfig = {
       text: "Quero Iniciar Minha Formação",
       href: "#cursos-catalog",
     },
-    backgroundImage: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    backgroundImages: CURSO_CAPA_HERO_SLIDESHOW,
+    backgroundImage: CURSO_CAPA_HERO_SLIDESHOW[0]!,
   },
   presence: {
     titleLine1: "Sua jornada",

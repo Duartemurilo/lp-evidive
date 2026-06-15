@@ -20,7 +20,7 @@ export const especializacoesCourses: FormacaoCourse[] = [
       "Curso desafiador e recompensador para quem quer evoluir",
     ],
     href: "/cursos/resgate",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/Resgate/curso_resgate_rescue.png",
     featured: true,
   },
   {
@@ -35,7 +35,7 @@ export const especializacoesCourses: FormacaoCourse[] = [
       "Base completa para seguir rumo a carreira de instrutor",
     ],
     href: "/cursos/padi-divemaster",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/PADI Divemaster/curso_padi_divemaster_beneficios.jpeg",
   },
   {
     id: "nitrox",
@@ -49,6 +49,6 @@ export const especializacoesCourses: FormacaoCourse[] = [
       "Mais autonomia para explorar melhor cada mergulho",
     ],
     href: "/cursos/nitrox",
-    image: "/backgrounds/hero-cursos-exploracao-submarina.png",
+    image: "/cursos-evi/Cursos/NITROX/curso_nitrox_capa.jpeg",
   },
 ];

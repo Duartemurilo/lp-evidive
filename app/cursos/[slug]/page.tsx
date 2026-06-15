@@ -1,5 +1,6 @@
 import { CursoDetailShell } from "@/components/cursos/detail/curso-detail-shell";
 import { getCursoPageContent } from "@/lib/cursos-course-registry";
+import { getCursoCapaImageOrFallback } from "@/lib/cursos-capa-images";
 import { getCursoDetailSlugs } from "@/lib/cursos-routes";
 import { cursosConfig } from "@/lib/cursos-config";
 import { createMetadata } from "@/lib/metadata";
@@ -30,7 +31,7 @@ export async function generateMetadata({
     title: content.title,
     description: content.metaDescription,
     path: `/cursos/${slug}`,
-    image: cursosConfig.hero.backgroundImage,
+    image: getCursoCapaImageOrFallback(slug, cursosConfig.hero.backgroundImage),
     ...(!isCursoPageWithBlocks(content) ? { noIndex: true } : {}),
   });
 }

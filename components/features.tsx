@@ -24,28 +24,28 @@ const architecturePillars: ArchitecturePillar[] = [
     title: "Captação pluvial",
     description:
       "A reposição do lago vem da água da chuva — zero desperdício de água tratada externa.",
-    image: "/assets/hero/DCIM_107GOPRO_GOPR3018.JPG.png",
+    image: "/home/home_captacao_pluvial.JPG",
   },
   {
     number: "02",
     title: "Contêineres oceânicos",
     description:
       "Arquitetura reciclada de alto padrão. Uma estrutura sólida que já cruzou o mundo antes de você.",
-    image: "/assets/hero/POSTS_EVIDIVE (2).png",
+    image: "/home/home_conteiners.JPG",
   },
   {
     number: "03",
     title: "Eficiência térmica",
     description:
       "Telhado verde e integração para conforto natural — dispensa o excesso de climatização artificial.",
-    image: "/assets/hero/POSTS_EVIDIVE (5).png",
+    image: "/home/home_eficiencia_termica.png",
   },
   {
     number: "04",
     title: "100% Acessível",
     description:
       "Estrutura desenhada para todos. Mergulho e circulação inclusivos desde a porta de entrada.",
-    image: "/assets/hero/POSTS_EVIDIVE (8).png",
+    image: "/home/home_acessivel.JPG",
   },
 ];
 

@@ -22,35 +22,35 @@ const communityMembers: CommunityMember[] = [
     role: "Curso Avançado de Mergulho",
     quote:
       "Entrei pra aprender a mergulhar. Fiquei pela comunidade e pelos amigos que fiz aqui.",
-    image: "/assets/hero/DCIM_101GOPRO_GOPR5892.JPG.png",
+    image: "/home/home_aperfeicoe_tecnica.png",
   },
   {
     name: "Rafael S.",
     role: "Divemaster",
     quote:
       "A Evidive mudou minha forma de viver o fim de semana. Hoje mergulho todo sábado com o mesmo grupo.",
-    image: "/assets/hero/POSTS_EVIDIVE (4).png",
+    image: "/home/home_conteiners.JPG",
   },
   {
     name: "Camila R.",
     role: "Mergulhadora Open Water",
     quote:
       "Aqui encontrei um lugar seguro para evoluir no meu ritmo, sempre com gente que torce por mim.",
-    image: "/assets/hero/DCIM_100GOPRO_GOPR3378.JPG.png",
+    image: "/home/home_adaptacao_progressiva.JPG",
   },
   {
     name: "Thiago M.",
     role: "Instrutor Assistente",
     quote:
       "O que mais me marcou foi ver alunos virarem amigos e voltarem juntos toda semana.",
-    image: "/assets/hero/POSTS_EVIDIVE (7).png",
+    image: "/home/home_direcionamento.JPG",
   },
   {
     name: "Juliana P.",
     role: "Freediver",
     quote:
       "Mais do que treinos, a Evidive virou meu ponto de encontro com o mar e com pessoas incríveis.",
-    image: "/assets/hero/G0025436.JPG.png",
+    image: "/home/home_exploracao_realidade.jpg",
   },
 ];
 

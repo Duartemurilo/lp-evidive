@@ -27,6 +27,11 @@ import type { ReactNode } from "react";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
+const homeFormacaoHeroImage =
+  "/cursos-evi/Cursos/Scuba Diver/curso_scuba_curso_ideal.jpeg";
+const homeEspecializacoesHeroImage =
+  "/cursos-evi/Cursos/PADI Divemaster/curso_padi_divemaster_capa.jpeg";
+
 const cardTrackStagger: Variants = {
   hidden: {},
   visible: {
@@ -409,7 +414,7 @@ export function Formacao(): ReactNode {
         <FormacaoBlock
           chessboardRow={1}
           imageCorner="top-left"
-          imageSrc="/assets/hero/G0025436.JPG.png"
+          imageSrc={homeFormacaoHeroImage}
           eyebrow="Gateway Experience · Evidive"
           headingId="formacao-heading"
           titleSans="Onde a exploração"
@@ -429,7 +434,7 @@ export function Formacao(): ReactNode {
         <FormacaoBlock
           chessboardRow={2}
           imageCorner="bottom-right"
-          imageSrc="/assets/hero/POSTS_EVIDIVE (7).png"
+          imageSrc={homeEspecializacoesHeroImage}
           imageObjectPosition="center 35%"
           eyebrow="Especializações e Carreira · Evidive"
           headingId="especializacoes-heading"

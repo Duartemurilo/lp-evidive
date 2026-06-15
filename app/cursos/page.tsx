@@ -10,6 +10,7 @@ export const metadata: Metadata = createMetadata({
   title: "Cursos",
   description: cursosConfig.hero.subheadline,
   path: "/cursos",
+  image: cursosConfig.hero.backgroundImage,
 });
 
 export default function CursosPage(): ReactNode {

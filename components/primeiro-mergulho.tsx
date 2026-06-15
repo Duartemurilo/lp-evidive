@@ -37,21 +37,21 @@ const experienceSteps: ExperienceStep[] = [
     title: "Briefing e Introdução",
     description:
       "Em um ambiente acolhedor, você vai entender como a água funciona, os princípios básicos e vestir os equipamentos. Aqui, a ansiedade começa a virar curiosidade.",
-    image: "/assets/hero/POSTS_EVIDIVE (1).png",
+    image: "/home/home_briefing.jpeg",
   },
   {
     number: "02",
     title: "Adaptação Progressiva",
     description:
       "Antes da imersão real, você dará suas primeiras respirações controladas na superfície da piscina aquecida. No seu tempo, com o instrutor ao seu lado.",
-    image: "/assets/hero/DCIM_101GOPRO_GOPR5891.JPG.png",
+    image: "/home/home_adaptacao_progressiva.JPG",
   },
   {
     number: "03",
     title: "O Mergulho no EviLago",
     description:
       "O momento mais aguardado: descer para o ambiente aquático imersivo do lago. É aqui que você vai sentir como é respirar debaixo d'água no meio da natureza urbana.",
-    image: "/assets/hero/DCIM_107GOPRO_GOPR3018.JPG.png",
+    image: "/home/home_mergulho_evilago.jpg",
   },
 ];
 

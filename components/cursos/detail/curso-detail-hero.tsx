@@ -7,7 +7,7 @@ import {
 } from "@/components/hero-text-reveal";
 import { SectionEyebrow } from "@/components/section-eyebrow";
 import { WaveDivider } from "@/components/wave-divider";
-import { cursosConfig } from "@/lib/cursos-config";
+import { toCssBackgroundImageUrl } from "@/lib/cursos-capa-images";
 import { useReducedMotion } from "@/lib/motion";
 import type { CursoHeroContent } from "@/lib/types/curso-page";
 import {
@@ -33,12 +33,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
 
-const { backgroundImage } = cursosConfig.hero;
-
 type CursoDetailHeroProps = {
   title: string;
   categoryLabel: string;
   hero: CursoHeroContent;
+  backgroundImage: string;
 };
 
 function splitSupporting(supporting: string): readonly [string, string?] {
@@ -52,6 +51,7 @@ function splitSupporting(supporting: string): readonly [string, string?] {
 export function CursoDetailHero({
   categoryLabel,
   hero,
+  backgroundImage,
 }: CursoDetailHeroProps): ReactNode {
   const hydrated = useHydrated();
   const animReady = usePageRevealReady();
@@ -85,7 +85,7 @@ export function CursoDetailHero({
     >
       <div
         className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat min-[850px]:inset-2.5 min-[850px]:scale-105 min-[850px]:rounded-br-4xl min-[850px]:rounded-bl-4xl"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        style={{ backgroundImage: toCssBackgroundImageUrl(backgroundImage) }}
         aria-hidden
       >
         <div
