@@ -51,6 +51,22 @@ export function Hero(): ReactNode {
           </span>
         </h1>
 
+        {/* Descrição completa da Evidive, só para leitor de tela e crawlers
+            de texto (não executam JS/WebGL e precisam desta explicação sem
+            depender das linhas curtas e quebradas do título visual acima).
+            Não muda nada visualmente: é a mesma informação que já está
+            espalhada pelo resto do site, só reunida em um parágrafo cru. */}
+        <p className="sr-only">
+          A Evidive é um concept dive center urbano em Cotia, a cerca de 30
+          minutos de São Paulo, que transforma o mergulho em uma experiência
+          completa, acessível, segura e memorável. O Emotion Dive é a
+          primeira experiência guiada, com cilindro de ar, na piscina
+          aquecida e no EviLago, um ambiente aquático imersivo construído em
+          container reaproveitado. Para quem já mergulha, a Evidive oferece
+          certificações PADI, especializações, formação de Divemaster,
+          freedive e viagens de mergulho para destinos selecionados.
+        </p>
+
         <div className={heroSubtitleWrapperClass}>
           <p className="whitespace-nowrap">{subtitleLine1}</p>
           <p className="mt-1 whitespace-nowrap">{subtitleLine2}</p>

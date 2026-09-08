@@ -1,3 +1,4 @@
+import { OrganizationSchema } from "@/components/organization-schema";
 import { Providers } from "@/components/providers";
 import { SiteChrome } from "@/components/site-chrome";
 import { SkipToContent } from "@/components/skip-to-content";
@@ -60,6 +61,9 @@ export default function RootLayout({
 }>): ReactNode {
   return (
     <html lang="pt-BR">
+      <head>
+        <OrganizationSchema />
+      </head>
       <body
         className={`${garet.variable} ${todayShop.variable} relative min-h-screen bg-background font-sans text-foreground antialiased`}
       >

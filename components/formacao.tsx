@@ -182,11 +182,17 @@ function FormacaoIntroBanner(): ReactNode {
         <div className={`mt-4 flex justify-center ${sectionWaveWrapOnLight}`}>
           <WaveDivider />
         </div>
-        <p className={`mx-auto mt-5 max-w-[18ch] md:mt-6 ${sectionTitleBase}`}>
+        <h2 className={`mx-auto mt-5 max-w-[18ch] md:mt-6 ${sectionTitleBase}`}>
           <span className={`block ${sectionTitleDisplay} text-foreground`}>Mergulhadores</span>
           <span className={`mt-1 block ${sectionTitleSans} text-black`}>
             Sua jornada começa aqui.
           </span>
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+          Da primeira vez respirando debaixo d&apos;água até a certificação
+          PADI Divemaster, a formação da Evidive acompanha cada etapa: do
+          Emotion Dive guiado no EviLago aos cursos, especializações e
+          expedições que constroem uma trajetória real no mergulho.
         </p>
       </motion.div>
     </div>

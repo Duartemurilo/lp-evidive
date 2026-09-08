@@ -11,6 +11,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,json,css,md}\"",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -54,6 +55,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }
